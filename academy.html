@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAIROS GLOBAL RESEARCH // ACADEMY WORKSPACE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body { background-color: #020203; color: #d4d4d8; font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#020203] text-zinc-300 antialiased min-h-screen flex flex-col justify-between selection:bg-cyan-900 selection:text-cyan-100">
+
+    <!-- 1. DYNAMIC HEADER CONTAINER -->
+    <div id="global-header"></div>
+
+    <!-- 2. TICKER TAPE -->
+    <div class="w-full bg-[#020203] border-b border-zinc-900 overflow-hidden h-[46px] flex items-center shrink-0">
+        <div class="flex items-center gap-6 overflow-x-auto w-full px-4 sm:px-6 font-mono text-xs select-none">
+            <span class="text-cyan-500 font-bold uppercase tracking-widest text-[9px] shrink-0 border-r border-zinc-800 pr-3 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                // LIVE TICKER
+            </span>
+            <div class="flex items-center gap-8 flex-nowrap min-w-max">
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">EUR/USD</span><span class="text-zinc-400">1.0845</span><span class="text-emerald-400 font-bold">+0.12%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">GBP/USD</span><span class="text-zinc-400">1.2982</span><span class="text-rose-400 font-bold">-0.08%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/JPY</span><span class="text-zinc-400">154.22</span><span class="text-emerald-400 font-bold">+0.35%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/CAD</span><span class="text-zinc-400">1.3615</span><span class="text-rose-400 font-bold">-0.15%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">XAU/USD</span><span class="text-zinc-400">2684.50</span><span class="text-emerald-400 font-bold">+0.88%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. CHANNELS BAR -->
+    <div class="w-full bg-[#040406] border-b border-zinc-900 py-3.5 sm:py-4 overflow-x-auto select-none">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-nowrap items-center justify-between min-w-max gap-8 sm:gap-12 font-mono text-xs tracking-[0.2em] uppercase text-zinc-500">
+            <span class="text-cyan-500 font-bold sticky left-0 bg-[#040406] pr-4 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-cyan-500 rounded-sm"></span>
+                // Channels
+            </span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> G10 Currency Majors</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Relative Pip Volatility</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Macro Event Risk Feeds</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Interest Rate Differentials</span>
+        </div>
+    </div>
+
+    <!-- 4. HERO / HEADER SECTION -->
+    <section class="relative w-full py-12 sm:py-16 border-b border-zinc-900 bg-[#020203]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <div class="flex items-center gap-3 font-mono">
+                <span class="text-cyan-500 font-bold text-[10px] sm:text-[11px] tracking-[0.25em] uppercase">
+                    // SYSTEMATIC COURSE WORKSPACE
+                </span>
+                <span class="text-zinc-700">|</span>
+                <span class="text-cyan-400 font-bold text-[10px] tracking-wider uppercase flex items-center gap-1.5">
+                    CURRICULUM ACTIVE
+                </span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight leading-tight">
+                Educational Academy
+            </h1>
+
+            <p className="text-sm sm:text-base text-zinc-400 font-sans max-w-3xl font-light leading-relaxed">
+                Access curated curricula engineered to build macro risk management competencies, trade execution skills, and systematic quantitative analysis capabilities.
+            </p>
+        </div>
+    </section>
+
+    <!-- 5. MAIN CONTENT -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-12">
+        
+        <!-- Track 1 -->
+        <section class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-zinc-900 gap-2 font-mono">
+                <div>
+                    <span class="text-cyan-500 text-[10px] uppercase tracking-widest font-bold">// CORE ACADEMIC TRACK 01</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white uppercase tracking-tight">Level 1: Macro Foundations</h2>
+                </div>
+                <span class="text-zinc-500 text-xs uppercase tracking-wider">4 Core Modules</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Module 1 -->
+                <div class="bg-[#040406] border border-zinc-900 hover:border-cyan-500/50 p-6 rounded-sm transition-all flex flex-col justify-between">
+                    <div class="space-y-3 font-mono">
+                        <div class="flex justify-between items-center text-[10px]">
+                            <span class="text-cyan-400 font-bold uppercase">// MOD_1.01</span>
+                            <span class="bg-zinc-900 text-zinc-400 px-2 py-0.5 rounded border border-zinc-800">LEVEL 1</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white uppercase tracking-wide">Central Bank Policy Rates</h3>
+                        <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">
+                            Master reserve requirements, repo facilities, quantitative easing vs. tightening, and how policy rates transmit to spot FX.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-zinc-900 flex justify-between font-mono text-[10px] text-zinc-500">
+                        <span>STATUS</span>
+                        <span class="text-emerald-400 font-bold">AVAILABLE</span>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="bg-[#040406] border border-zinc-900 hover:border-cyan-500/50 p-6 rounded-sm transition-all flex flex-col justify-between">
+                    <div class="space-y-3 font-mono">
+                        <div class="flex justify-between items-center text-[10px]">
+                            <span class="text-cyan-400 font-bold uppercase">// MOD_1.02</span>
+                            <span class="bg-zinc-900 text-zinc-400 px-2 py-0.5 rounded border border-zinc-800">LEVEL 1</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white uppercase tracking-wide">Sovereign Yield Curves</h3>
+                        <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">
+                            Learn to read 2Y vs 10Y curve shapes, term premia, and rate differentials as the primary engine for currency rotation.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-zinc-900 flex justify-between font-mono text-[10px] text-zinc-500">
+                        <span>STATUS</span>
+                        <span class="text-emerald-400 font-bold">AVAILABLE</span>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="bg-[#040406] border border-zinc-900 hover:border-cyan-500/50 p-6 rounded-sm transition-all flex flex-col justify-between">
+                    <div class="space-y-3 font-mono">
+                        <div class="flex justify-between items-center text-[10px]">
+                            <span class="text-cyan-400 font-bold uppercase">// MOD_1.03</span>
+                            <span class="bg-zinc-900 text-zinc-400 px-2 py-0.5 rounded border border-zinc-800">LEVEL 1</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white uppercase tracking-wide">Capital Flows & Indicators</h3>
+                        <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">
+                            Balance of payments, commodity terms-of-trade, and the hierarchy of Tier-1 releases: CPI, NFP, ISM Services.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-zinc-900 flex justify-between font-mono text-[10px] text-zinc-500">
+                        <span>STATUS</span>
+                        <span class="text-emerald-400 font-bold">AVAILABLE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Track 2 -->
+        <section class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-zinc-900 gap-2 font-mono">
+                <div>
+                    <span class="text-emerald-400 text-[10px] uppercase tracking-widest font-bold">// CORE ACADEMIC TRACK 02</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white uppercase tracking-tight">Level 2: Variance Control</h2>
+                </div>
+                <span class="text-zinc-500 text-xs uppercase tracking-wider">Quantitative Risk</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-[#040406] border border-zinc-900 hover:border-emerald-500/50 p-6 rounded-sm transition-all space-y-4">
+                    <div class="flex justify-between items-center font-mono text-[10px]">
+                        <span class="text-emerald-400 font-bold uppercase">// RISK_MGMT_V1</span>
+                        <span class="bg-zinc-900 text-emerald-400 px-2 py-0.5 rounded border border-emerald-900/40">MATHEMATICAL</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white uppercase tracking-wide">Position Sizing & Parity Math</h3>
+                    <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">
+                        Eliminate ruin probability with fractional Kelly positioning, cross-currency pip valuation, and volatility-adjusted unit sizing.
+                    </p>
+                </div>
+
+                <div class="bg-[#040406] border border-zinc-900 hover:border-emerald-500/50 p-6 rounded-sm transition-all space-y-4">
+                    <div class="flex justify-between items-center font-mono text-[10px]">
+                        <span class="text-emerald-400 font-bold uppercase">// RISK_MGMT_V2</span>
+                        <span class="bg-zinc-900 text-emerald-400 px-2 py-0.5 rounded border border-emerald-900/40">INVALIDATION</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white uppercase tracking-wide">Structural Macro Invalidation</h3>
+                    <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">
+                        Placing stops based on macroeconomic thesis failure and central bank forward guidance rather than arbitrary retail chart lines.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 6. DYNAMIC FOOTER CONTAINER -->
+    <div id="global-footer"></div>
+
+    <script src="js/inject-engine.js"></script>
+</body>
+</html>

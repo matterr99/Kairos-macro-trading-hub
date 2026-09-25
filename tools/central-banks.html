@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kairos Global // Central Bank Terminal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body { background-color: #020203; color: #d4d4d8; font-family: 'Inter', sans-serif; }
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:hover { color: #22d3ee; }
+  </style>
+</head>
+<body class="bg-[#020203] text-zinc-300 antialiased min-h-screen flex flex-col justify-between selection:bg-cyan-900 selection:text-cyan-100">
+
+  <!-- 1. DYNAMIC HEADER CONTAINER -->
+  <div id="global-header"></div>
+
+  <!-- 2. TICKER TAPE -->
+  <div class="w-full bg-[#020203] border-b border-zinc-900 overflow-hidden h-[46px] flex items-center shrink-0">
+      <div class="flex items-center gap-6 overflow-x-auto w-full px-4 sm:px-6 font-mono text-xs select-none">
+          <span class="text-cyan-500 font-bold uppercase tracking-widest text-[9px] shrink-0 border-r border-zinc-800 pr-3 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+              // LIVE TICKER
+          </span>
+          <div class="flex items-center gap-8 flex-nowrap min-w-max">
+              <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">EUR/USD</span><span class="text-zinc-400">1.0845</span><span class="text-emerald-400 font-bold">+0.12%</span></div>
+              <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">GBP/USD</span><span class="text-zinc-400">1.2982</span><span class="text-rose-400 font-bold">-0.08%</span></div>
+              <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/JPY</span><span class="text-zinc-400">154.22</span><span class="text-emerald-400 font-bold">+0.35%</span></div>
+              <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/CAD</span><span class="text-zinc-400">1.3615</span><span class="text-rose-400 font-bold">-0.15%</span></div>
+              <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">XAU/USD</span><span class="text-zinc-400">2684.50</span><span class="text-emerald-400 font-bold">+0.88%</span></div>
+          </div>
+      </div>
+  </div>
+
+  <!-- 3. HERO / HEADER SECTION -->
+  <section class="relative w-full py-10 sm:py-12 border-b border-zinc-900 bg-[#020203]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 font-mono">
+      <div class="space-y-3">
+        <a href="../tools.html" class="inline-flex items-center gap-2 text-xs text-zinc-500 hover:text-cyan-400 transition-colors uppercase">
+          &larr; Return to Tools Hub
+        </a>
+        <div class="flex items-center gap-3">
+          <span class="text-cyan-500 font-bold text-[10px] tracking-widest uppercase">// POLICY RADAR_V2</span>
+          <span class="text-zinc-700">|</span>
+          <span class="text-emerald-400 font-bold text-[10px] tracking-wider uppercase">G10 COCKPIT</span>
+        </div>
+        <h1 class="text-2xl sm:text-4xl font-black text-white uppercase tracking-tight">
+          G10 Central Bank Terminal
+        </h1>
+        <p class="text-xs text-zinc-400 font-sans max-w-2xl font-light leading-relaxed">
+          Real-time monetary policy expectations, automated tone classification, decision countdowns, and implied trajectory curves.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <label for="bankSelect" class="text-xs font-mono text-zinc-400 uppercase">View:</label>
+        <select id="bankSelect" onchange="switchBankView(this.value)" class="bg-[#0c0c12] border border-zinc-800 text-white text-xs rounded-sm px-3 py-2 font-mono focus:outline-none focus:border-cyan-400">
+          <option value="Overview">Overview (All Banks)</option>
+          <option value="FED">Federal Reserve (FED)</option>
+          <option value="ECB">European Central Bank (ECB)</option>
+          <option value="BOE">Bank of England (BOE)</option>
+          <option value="RBA">Reserve Bank of Australia (RBA)</option>
+          <option value="BOC">Bank of Canada (BOC)</option>
+          <option value="RBNZ">Reserve Bank of NZ (RBNZ)</option>
+          <option value="BOJ">Bank of Japan (BOJ)</option>
+          <option value="SNB">Swiss National Bank (SNB)</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. MAIN TERMINAL VIEW -->
+  <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-8">
+    <div id="terminalViewContainer" class="space-y-6"></div>
+  </main>
+
+  <!-- 5. DYNAMIC FOOTER CONTAINER -->
+  <div id="global-footer"></div>
+
+  <script src="../js/inject-engine.js"></script>
+
+  <script>
+    const ratesData = {
+      FED: { code: "FED", name: "Federal Reserve (FED)", rate: 3.63, nextMeeting: "2026-10-14T14:00:00", step: 0.25, implied: 3.78, trajectory: [3.63, 3.78, 3.91, 4.03, 3.88] },
+      ECB: { code: "ECB", name: "European Central Bank (ECB)", rate: 2.40, nextMeeting: "2026-10-22T14:15:00", step: 0.25, implied: 2.63, trajectory: [2.40, 2.63, 2.85, 2.95, 2.80] },
+      BOE: { code: "BOE", name: "Bank of England (BOE)", rate: 3.75, nextMeeting: "2026-11-05T12:00:00", step: 0.25, implied: 3.87, trajectory: [3.75, 3.87, 4.00, 4.10, 3.95] },
+      RBA: { code: "RBA", name: "Reserve Bank of Australia (RBA)", rate: 4.35, nextMeeting: "2026-10-06T14:30:00", step: 0.25, implied: 4.53, trajectory: [4.35, 4.53, 4.70, 4.80, 4.65] },
+      BOC: { code: "BOC", name: "Bank of Canada (BOC)", rate: 2.25, nextMeeting: "2026-10-28T10:00:00", step: 0.25, implied: 2.33, trajectory: [2.25, 2.33, 2.40, 2.50, 2.35] },
+      RBNZ: { code: "RBNZ", name: "Reserve Bank of NZ (RBNZ)", rate: 2.50, nextMeeting: "2026-10-07T14:00:00", step: 0.25, implied: 2.64, trajectory: [2.50, 2.64, 2.78, 2.92, 2.75] },
+      BOJ: { code: "BOJ", name: "Bank of Japan (BOJ)", rate: 1.00, nextMeeting: "2026-10-30T12:00:00", step: 0.10, implied: 1.20, trajectory: [1.00, 1.20, 1.35, 1.50, 1.60] },
+      SNB: { code: "SNB", name: "Swiss National Bank (SNB)", rate: 0.00, nextMeeting: "2026-12-10T09:30:00", step: 0.25, implied: 0.05, trajectory: [0.00, 0.05, 0.10, 0.15, 0.05] }
+    };
+
+    let currentSortColumn = 'nextMeeting';
+    let sortAscending = true;
+
+    function classifyPolicyTone(deltaBps, outcome) {
+      if (deltaBps >= 20) {
+        return { label: "Strongly Hawkish", class: "text-emerald-300 bg-emerald-950/80 border-emerald-500/50", weight: 4 };
+      } else if (deltaBps >= 10 && outcome === "HIKE") {
+        return { label: "Hawkish / Hike Bias", class: "text-emerald-400 bg-emerald-950/50 border-emerald-500/30", weight: 3 };
+      } else if (outcome === "HOLD" && deltaBps > 5) {
+        return { label: "Hawkish Hold", class: "text-teal-300 bg-teal-950/50 border-teal-500/30", weight: 2 };
+      } else if (Math.abs(deltaBps) <= 5) {
+        return { label: "Neutral / Data-Dependent", class: "text-zinc-300 bg-zinc-800/60 border-zinc-700", weight: 1 };
+      } else if (outcome === "HOLD" && deltaBps < -5) {
+        return { label: "Dovish Hold", class: "text-amber-300 bg-amber-950/50 border-amber-500/30", weight: -1 };
+      } else if (deltaBps <= -6 && deltaBps > -18) {
+        return { label: "Dovish Pivot", class: "text-rose-300 bg-rose-950/50 border-rose-500/30", weight: -2 };
+      } else {
+        return { label: "Strongly Dovish", class: "text-rose-400 bg-rose-950/80 border-rose-500/50", weight: -3 };
+      }
+    }
+
+    function switchBankView(view) {
+      const container = document.getElementById('terminalViewContainer');
+      if (view === "Overview") {
+        renderOverview(container);
+      } else {
+        renderDrilldown(container, view);
+      }
+    }
+
+    function renderOverview(container) {
+      let rows = Object.values(ratesData).map(b => {
+        const deltaBps = (b.implied - b.rate) * 100;
+        const prob = Math.min(Math.max(Math.abs(deltaBps) / (b.step * 100) * 100, 0), 100);
+        const outcome = deltaBps > (b.step * 50) ? "HIKE" : (deltaBps < -(b.step * 50) ? "CUT" : "HOLD");
+        const tone = classifyPolicyTone(deltaBps, outcome);
+        return { ...b, deltaBps, prob, outcome, tone };
+      });
+
+      let html = `
+        <div class="bg-[#040406] border border-zinc-900 rounded-sm p-6 shadow-xl space-y-6">
+          <div class="flex justify-between items-center font-mono">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">G10 Policy Rate Expectations Matrix</h3>
+            <span class="text-[10px] text-zinc-500">REALIZED PROJECTIONS</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left font-mono">
+              <thead>
+                <tr class="text-zinc-500 text-[10px] border-b border-zinc-900 uppercase tracking-wider bg-[#07080d]">
+                  <th class="p-3.5 pl-4">Next Decision</th>
+                  <th class="p-3.5">Central Bank</th>
+                  <th class="p-3.5 text-center">Current Rate</th>
+                  <th class="p-3.5 text-center">Implied Rate</th>
+                  <th class="p-3.5 text-center">Delta (bps)</th>
+                  <th class="p-3.5 text-center">Probability</th>
+                  <th class="p-3.5 text-center">Automated Policy Tone</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-900/60">
+      `;
+
+      rows.forEach(b => {
+        html += `
+          <tr class="hover:bg-[#08080f] transition">
+            <td class="p-3.5 pl-4 text-zinc-400 font-bold">${b.nextMeeting.split('T')[0]}</td>
+            <td class="p-3.5 font-bold text-white">${b.name}</td>
+            <td class="p-3.5 text-center text-zinc-300 tabular-nums">${b.rate.toFixed(2)}%</td>
+            <td class="p-3.5 text-center text-cyan-400 font-bold tabular-nums">${b.implied.toFixed(2)}%</td>
+            <td class="p-3.5 text-center tabular-nums text-zinc-300">${b.deltaBps > 0 ? '+' : ''}${b.deltaBps.toFixed(1)}</td>
+            <td class="p-3.5 text-center tabular-nums text-zinc-300">${b.prob.toFixed(0)}%</td>
+            <td class="p-3.5 text-center"><span class="px-2.5 py-1 rounded border text-[10px] font-bold tracking-wide ${b.tone.class}">${b.tone.label}</span></td>
+          </tr>
+        `;
+      });
+
+      html += `</tbody></table></div></div>`;
+      container.innerHTML = html;
+    }
+
+    function renderDrilldown(container, bankCode) {
+      const b = ratesData[bankCode];
+      const deltaBps = (b.implied - b.rate) * 100;
+      const outcome = deltaBps > (b.step * 50) ? "HIKE" : (deltaBps < -(b.step * 50) ? "CUT" : "HOLD");
+      const tone = classifyPolicyTone(deltaBps, outcome);
+
+      container.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 font-mono">
+          <div class="bg-[#040406] border border-zinc-900 rounded-sm p-6 shadow-xl flex flex-col justify-center items-center text-center">
+            <span class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-2">Next Meeting</span>
+            <div class="text-xl font-black text-cyan-400">${b.nextMeeting.split('T')[0]}</div>
+          </div>
+          <div class="bg-[#040406] border border-zinc-900 rounded-sm p-6 shadow-xl flex flex-col justify-center items-center text-center">
+            <span class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">Current Rate</span>
+            <div class="text-3xl font-black text-white">${b.rate.toFixed(2)}%</div>
+          </div>
+          <div class="bg-[#040406] border border-zinc-900 rounded-sm p-6 shadow-xl flex flex-col justify-center items-center text-center">
+            <span class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">Implied Forward Rate</span>
+            <div class="text-3xl font-black text-emerald-400">${b.implied.toFixed(2)}%</div>
+          </div>
+          <div class="bg-[#040406] border border-zinc-900 rounded-sm p-6 shadow-xl flex flex-col justify-center items-center text-center">
+            <span class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-2">Evaluated Tone</span>
+            <span class="px-3 py-1 rounded border text-xs font-bold tracking-wide ${tone.class}">${tone.label}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      switchBankView("Overview");
+    });
+  </script>
+</body>
+</html>

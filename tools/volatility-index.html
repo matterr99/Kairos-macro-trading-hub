@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAIROS GLOBAL RESEARCH // VOLATILITY MATRIX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        body { background-color: #020203; color: #d4d4d8; font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#020203] text-zinc-300 antialiased min-h-screen flex flex-col justify-between selection:bg-cyan-900 selection:text-cyan-100">
+
+    <!-- 1. DYNAMIC HEADER CONTAINER -->
+    <div id="global-header"></div>
+
+    <!-- 2. TICKER TAPE -->
+    <div class="w-full bg-[#020203] border-b border-zinc-900 overflow-hidden h-[46px] flex items-center shrink-0">
+        <div class="flex items-center gap-6 overflow-x-auto w-full px-4 sm:px-6 font-mono text-xs select-none">
+            <span class="text-cyan-500 font-bold uppercase tracking-widest text-[9px] shrink-0 border-r border-zinc-800 pr-3 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                // LIVE TICKER
+            </span>
+            <div class="flex items-center gap-8 flex-nowrap min-w-max">
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">EUR/USD</span><span class="text-zinc-400">1.0845</span><span class="text-emerald-400 font-bold">+0.12%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">GBP/USD</span><span class="text-zinc-400">1.2982</span><span class="text-rose-400 font-bold">-0.08%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/JPY</span><span class="text-zinc-400">154.22</span><span class="text-emerald-400 font-bold">+0.35%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/CAD</span><span class="text-zinc-400">1.3615</span><span class="text-rose-400 font-bold">-0.15%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">XAU/USD</span><span class="text-zinc-400">2684.50</span><span class="text-emerald-400 font-bold">+0.88%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. CHANNELS BAR -->
+    <div class="w-full bg-[#040406] border-b border-zinc-900 py-3.5 sm:py-4 overflow-x-auto select-none">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-nowrap items-center justify-between min-w-max gap-8 sm:gap-12 font-mono text-xs tracking-[0.2em] uppercase text-zinc-500">
+            <span class="text-cyan-500 font-bold sticky left-0 bg-[#040406] pr-4 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-cyan-500 rounded-sm"></span>
+                // Channels
+            </span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> G10 Currency Majors</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Relative Pip Volatility</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Macro Event Risk Feeds</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Interest Rate Differentials</span>
+        </div>
+    </div>
+
+    <!-- 4. HERO SECTION -->
+    <section class="relative w-full py-10 sm:py-12 border-b border-zinc-900 bg-[#020203]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 font-mono">
+            <div class="space-y-3">
+                <a href="../tools.html" class="inline-flex items-center gap-2 text-xs text-zinc-500 hover:text-cyan-400 transition-colors uppercase">
+                    &larr; Return to Tools Hub
+                </a>
+                <div class="flex items-center gap-3">
+                    <span class="text-cyan-500 font-bold text-[10px] tracking-widest uppercase">// REALIZED MATRIX_V3</span>
+                    <span class="text-zinc-700">|</span>
+                    <span class="text-emerald-400 font-bold text-[10px] tracking-wider uppercase">UPDATED WEEKLY</span>
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-black text-white uppercase tracking-tight">
+                    Currency Pair Daily Average Volatility
+                </h1>
+                <p class="text-xs text-zinc-400 font-sans max-w-2xl font-light leading-relaxed">
+                    Consult historical programmatic realized variance metrics showing average daily pip ranges and 100k cash values across 28 currency pairs.
+                </p>
+            </div>
+            
+            <div class="font-mono text-[10px] text-zinc-500 bg-[#040406] border border-zinc-800 p-3 rounded-sm">
+                [ CURRENT CYCLE: SUN JUN 28 – FRI JUL 03, 2026 ]
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. VOLATILITY TABLE -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-6">
+        <div class="bg-[#040406] border border-zinc-900 rounded-sm overflow-x-auto shadow-2xl">
+            <table class="w-full text-left font-mono text-xs select-none">
+                <thead>
+                    <tr class="text-[10px] text-zinc-500 border-b border-zinc-900 uppercase tracking-wider bg-[#07080d]">
+                        <th class="py-4 font-medium pl-6">Pair Symbol</th>
+                        <th class="py-4 font-medium text-right">Avg Daily Pips</th>
+                        <th class="py-4 font-medium text-right">$ Cash Value (100k)</th>
+                        <th class="py-4 font-medium text-right pr-6">% Realized Range</th>
+                    </tr>
+                </thead>
+                <tbody id="currency-table-body" class="divide-y divide-zinc-900/40">
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- 6. DYNAMIC FOOTER CONTAINER -->
+    <div id="global-footer"></div>
+
+    <script src="../js/inject-engine.js"></script>
+    <script>
+        const assetProfiles = {
+            AUDCAD: { name: "AUDCAD", pips: "47.898", cash: "340.60", pct: "0.48%" },
+            AUDCHF: { name: "AUDCHF", pips: "30.310", cash: "369.32", pct: "0.52%" },
+            AUDJPY: { name: "AUDJPY", pips: "82.238", cash: "522.35", pct: "0.73%" },
+            AUDNZD: { name: "AUDNZD", pips: "54.954", cash: "314.83", pct: "0.44%" },
+            AUDUSD: { name: "AUDUSD", pips: "40.454", cash: "404.54", pct: "0.57%" },
+            CADCHF: { name: "CADCHF", pips: "28.086", cash: "342.22", pct: "0.48%" },
+            CADJPY: { name: "CADJPY", pips: "82.000", cash: "520.83", pct: "0.73%" },
+            CHFJPY: { name: "CHFJPY", pips: "133.798", cash: "849.83", pct: "0.70%" },
+            EURAUD: { name: "EURAUD", pips: "66.412", cash: "472.65", pct: "0.41%" },
+            EURCAD: { name: "EURCAD", pips: "54.142", cash: "385.00", pct: "0.34%" },
+            EURCHF: { name: "EURCHF", pips: "33.718", cash: "410.84", pct: "0.36%" },
+            EURGBP: { name: "EURGBP", pips: "22.096", cash: "294.87", pct: "0.26%" },
+            EURJPY: { name: "EURJPY", pips: "112.550", cash: "714.88", pct: "0.62%" },
+            EURNZD: { name: "EURNZD", pips: "97.184", cash: "556.77", pct: "0.49%" },
+            EURUSD: { name: "EURUSD", pips: "47.880", cash: "478.80", pct: "0.42%" },
+            GBPAUD: { name: "GBPAUD", pips: "85.680", cash: "609.78", pct: "0.46%" },
+            GBPCAD: { name: "GBPCAD", pips: "74.562", cash: "530.20", pct: "0.40%" },
+            GBPCHF: { name: "GBPCHF", pips: "48.994", cash: "596.98", pct: "0.45%" },
+            GBPJPY: { name: "GBPJPY", pips: "142.214", cash: "903.29", pct: "0.68%" },
+            GBPNZD: { name: "GBPNZD", pips: "118.458", cash: "678.65", pct: "0.51%" },
+            GBPUSD: { name: "GBPUSD", pips: "62.908", cash: "629.08", pct: "0.47%" },
+            NZDCAD: { name: "NZDCAD", pips: "46.522", cash: "330.81", pct: "0.58%" },
+            NZDCHF: { name: "NZDCHF", pips: "25.590", cash: "311.81", pct: "0.54%" },
+            NZDJPY: { name: "NZDJPY", pips: "73.590", cash: "467.42", pct: "0.82%" },
+            NZDUSD: { name: "NZDUSD", pips: "42.276", cash: "422.76", pct: "0.74%" },
+            USDCAD: { name: "USDCAD", pips: "55.822", cash: "396.94", pct: "0.40%" },
+            USDCHF: { name: "USDCHF", pips: "51.136", cash: "623.08", pct: "0.62%" },
+            USDJPY: { name: "USDJPY", pips: "118.658", cash: "753.67", pct: "0.75%" }
+        };
+
+        function buildSortedCurrencyIndexTable() {
+            const tbody = document.getElementById('currency-table-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            
+            const sortedKeys = Object.keys(assetProfiles).sort();
+            sortedKeys.forEach(key => {
+                const item = assetProfiles[key];
+                const row = document.createElement('tr');
+                row.className = "hover:bg-[#08080f] transition-colors border-b border-zinc-900/30 text-zinc-300 font-medium";
+                row.innerHTML = `
+                    <td class="py-3.5 text-left font-bold text-white pl-6">${item.name}</td>
+                    <td class="py-3.5 text-right tabular-nums pr-2">${item.pips}</td>
+                    <td class="py-3.5 text-right tabular-nums text-zinc-400 pr-2">$${item.cash}</td>
+                    <td class="py-3.5 text-right tabular-nums text-cyan-400 font-bold pr-6">${item.pct}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', buildSortedCurrencyIndexTable);
+        } else {
+            buildSortedCurrencyIndexTable();
+        }
+    </script>
+</body>
+</html>
