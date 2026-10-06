@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAIROS GLOBAL RESEARCH // TRADING TOOLS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body { background-color: #020203; color: #d4d4d8; font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#020203] text-zinc-300 antialiased min-h-screen flex flex-col justify-between selection:bg-cyan-900 selection:text-cyan-100">
+
+    <!-- 1. DYNAMIC HEADER CONTAINER -->
+    <div id="global-header"></div>
+
+    <!-- 2. TICKER TAPE -->
+    <div class="w-full bg-[#020203] border-b border-zinc-900 overflow-hidden h-[46px] flex items-center shrink-0">
+        <div class="flex items-center gap-6 overflow-x-auto w-full px-4 sm:px-6 font-mono text-xs select-none">
+            <span class="text-cyan-500 font-bold uppercase tracking-widest text-[9px] shrink-0 border-r border-zinc-800 pr-3 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                // LIVE TICKER
+            </span>
+            <div class="flex items-center gap-8 flex-nowrap min-w-max">
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">EUR/USD</span><span class="text-zinc-400">1.0845</span><span class="text-emerald-400 font-bold">+0.12%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">GBP/USD</span><span class="text-zinc-400">1.2982</span><span class="text-rose-400 font-bold">-0.08%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/JPY</span><span class="text-zinc-400">154.22</span><span class="text-emerald-400 font-bold">+0.35%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/CAD</span><span class="text-zinc-400">1.3615</span><span class="text-rose-400 font-bold">-0.15%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">XAU/USD</span><span class="text-zinc-400">2684.50</span><span class="text-emerald-400 font-bold">+0.88%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. CHANNELS BAR -->
+    <div class="w-full bg-[#040406] border-b border-zinc-900 py-3.5 sm:py-4 overflow-x-auto select-none">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-nowrap items-center justify-between min-w-max gap-8 sm:gap-12 font-mono text-xs tracking-[0.2em] uppercase text-zinc-500">
+            <span class="text-cyan-500 font-bold sticky left-0 bg-[#040406] pr-4 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-cyan-500 rounded-sm"></span>
+                // Channels
+            </span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> G10 Currency Majors</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Relative Pip Volatility</span>
+            <span class="flex items-center gap-2 text-cyan-400 font-semibold"><span class="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-ping"></span> Macro Event Risk Feeds</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Interest Rate Differentials</span>
+        </div>
+    </div>
+
+    <!-- 4. HERO SECTION -->
+    <section class="relative w-full py-12 sm:py-16 border-b border-zinc-900 bg-[#020203]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <div className="flex items-center gap-3 font-mono">
+                <span class="text-cyan-500 font-bold text-[10px] sm:text-[11px] tracking-[0.25em] uppercase">
+                    // SYSTEM OPERATIONS SUITE
+                </span>
+                <span class="text-zinc-700">|</span>
+                <span class="text-emerald-400 font-bold text-[10px] tracking-wider uppercase flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    ALL ENGINES ONLINE
+                </span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight leading-tight">
+                Trading Tools Hub
+            </h1>
+
+            <p class="text-sm sm:text-base text-zinc-400 font-sans max-w-3xl font-light leading-relaxed">
+                Access qualitative and mathematical macro analytical models engineered to verify position parameters, volatility ranges, central bank expectations, and relative currency valuations.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION SEPARATION DIVIDER BAR -->
+    <div class="w-full bg-[#050810] relative py-2.5 border-y border-zinc-800 flex items-center justify-center">
+        <div class="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent"></div>
+        <span class="absolute bg-[#090e1a] px-4 py-0.5 font-mono text-[9px] text-cyan-400 tracking-[0.25em] uppercase border border-cyan-500/30 rounded-full shadow-lg">
+            // DIVISION 01 &bull; CALENDAR & VALUATION ENGINES
+        </span>
+    </div>
+
+    <!-- SECTION 01: PRIMARY ENGINES (Clearly Brighter Slate #101626) -->
+    <section class="w-full py-16 sm:py-20 border-b border-zinc-800 bg-[#101626]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-zinc-900">
+                <div>
+                    <span class="font-mono text-[10px] text-cyan-500 tracking-[0.3em] uppercase block mb-2">
+                        // SECTION 01 // CALENDAR RISK & SENTIMENT
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
+                        Flagship Event & Valuation Engines
+                    </h2>
+                </div>
+                <p class="text-xs text-zinc-400 font-sans max-w-md font-light">
+                    Programmatic country channel filters and 28 cross-pair divergence scorecards.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Tool 1: CALENDAR FILTERING TOOL -->
+                <a href="tools/calendar.html" class="group bg-[#040406] border-2 border-cyan-500/60 hover:border-cyan-400 p-6 sm:p-8 rounded-sm transition-all flex flex-col justify-between shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-36 h-36 bg-cyan-500/15 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none group-hover:scale-150 transition-transform"></div>
+                    
+                    <div class="space-y-4 font-mono relative z-10">
+                        <div class="flex items-center justify-between text-[10px]">
+                            <span class="text-cyan-400 font-bold uppercase tracking-widest">// CALENDAR_FILTER_V2</span>
+                            <span class="bg-cyan-950 text-cyan-300 border border-cyan-700/80 px-2.5 py-0.5 rounded-sm font-bold uppercase flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                                PRIMARY ENGINE
+                            </span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors uppercase tracking-wide">
+                            Calendar Filtering Tool
+                        </h3>
+
+                        <p class="text-xs sm:text-sm text-zinc-300 font-sans leading-relaxed font-light">
+                            Programmatic country channel filter across 11 major global economies (US, EUR, GBP, AUD, JPY, CAD, CHF, NZD, FRA, DEU, CNH). Dynamically filters high-impact tier-1 releases, blackout windows, and consensus deviations.
+                        </p>
+
+                        <div class="pt-2 flex flex-wrap gap-1.5 text-[9px] text-zinc-400">
+                            <span class="bg-[#0c0c14] border border-zinc-800 px-2 py-0.5 rounded">11 Economies Filter</span>
+                            <span class="bg-[#0c0c14] border border-zinc-800 px-2 py-0.5 rounded">Tier-1 High Impact</span>
+                            <span class="bg-[#0c0c14] border border-zinc-800 px-2 py-0.5 rounded">Live Stream Matrix</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-4 border-t border-zinc-800 flex justify-between items-center font-mono text-xs text-cyan-400 font-bold uppercase tracking-wider relative z-10">
+                        <span>Launch Calendar Filtering Tool</span>
+                        <span class="group-hover:translate-x-2 transition-transform text-base">&rarr;</span>
+                    </div>
+                </a>
+
+                <!-- Tool 2: CURRENCY STRENGTH ENGINE -->
+                <a href="tools/currency-strength-engine.html" class="group bg-[#040406] border border-zinc-800 hover:border-cyan-500/50 p-6 sm:p-8 rounded-sm transition-all flex flex-col justify-between shadow-2xl relative overflow-hidden">
+                    <div class="space-y-4 font-mono">
+                        <div class="flex items-center justify-between text-[10px]">
+                            <span class="text-zinc-500 uppercase tracking-widest">// VALUATION_INDEX_V2</span>
+                            <span class="bg-zinc-900 text-cyan-400 border border-cyan-900/50 px-2.5 py-0.5 rounded-sm font-bold uppercase">
+                                28 CROSS PAIRS
+                            </span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors uppercase tracking-wide">
+                            Currency Strength & Valuation Engine
+                        </h3>
+
+                        <p class="text-xs sm:text-sm text-zinc-400 font-sans leading-relaxed font-light">
+                            Fundamental valuation dashboard tracking economic indicators across 8 major currencies. Computes directional bias ratios, divergence rankings, and editable actual/forecast values.
+                        </p>
+
+                        <div class="pt-2 flex flex-wrap gap-1.5 text-[9px] text-zinc-400">
+                            <span class="bg-[#0c0c14] border border-zinc-800 px-2 py-0.5 rounded">8 Major Currencies</span>
+                            <span class="bg-[#0c0c14] border border-zinc-800 px-2 py-0.5 rounded">Divergence Ranking</span>
+                            <span class="bg-[#0c0c14] border border-zinc-800 px-2 py-0.5 rounded">JSON Data Backup</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-4 border-t border-zinc-800 flex justify-between items-center font-mono text-xs text-cyan-400 font-bold uppercase tracking-wider">
+                        <span>Open Valuation Console</span>
+                        <span class="group-hover:translate-x-2 transition-transform text-base">&rarr;</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION SEPARATION DIVIDER BAR -->
+    <div class="w-full bg-[#07080d] relative py-2 border-b border-zinc-900 flex items-center justify-center">
+        <div class="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent"></div>
+        <span class="absolute bg-[#05060a] px-4 py-0.5 font-mono text-[9px] text-cyan-400/80 tracking-[0.25em] uppercase border border-zinc-800/90 rounded-full shadow-lg">
+            // DIVISION 02 &bull; VOLATILITY & POSITION SIZING
+        </span>
+    </div>
+
+    <!-- SECTION 02: VOLATILITY & POSITION SIZING (Obsidian Dark #020203) -->
+    <section class="w-full py-16 sm:py-20 border-b border-zinc-900 bg-[#020203]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-zinc-900">
+                <div>
+                    <span class="font-mono text-[10px] text-cyan-500 tracking-[0.3em] uppercase block mb-2">
+                        // SECTION 02 // POSITIONING & VARIANCE
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
+                        Volatility Matrix & Risk Sizing
+                    </h2>
+                </div>
+                <p class="text-xs text-zinc-400 font-sans max-w-md font-light">
+                    Realized variance distribution models and systematic parity stop calculators.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Volatility Index -->
+                <a href="tools/volatility-index.html" class="group bg-[#040406] border border-zinc-900 hover:border-cyan-500/50 p-6 sm:p-8 rounded-sm transition-all flex flex-col justify-between">
+                    <div class="space-y-3 font-mono">
+                        <div class="flex items-center justify-between text-[10px]">
+                            <span class="text-zinc-500 uppercase">// MATRIX_V3</span>
+                            <span class="text-cyan-400 font-bold uppercase">70-DAY HISTORY</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors uppercase tracking-wide">
+                            Daily Average Volatility by Currency Pair
+                        </h3>
+                        <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">
+                            Consult programmatic historical realized variance metrics showing average daily pip ranges and 100k cash values across 28 currency pairs.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-3 border-t border-zinc-900 flex justify-between font-mono text-xs text-cyan-500 font-bold uppercase">
+                        <span>Open Volatility Matrix</span>
+                        <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                    </div>
+                </a>
+
+                <!-- Position Calculator -->
+                <a href="tools/risk-calculator.html" class="group bg-[#040406] border border-zinc-900 hover:border-emerald-500/50 p-6 sm:p-8 rounded-sm transition-all flex flex-col justify-between">
+                    <div class="space-y-3 font-mono">
+                        <div class="flex items-center justify-between text-[10px]">
+                            <span class="text-zinc-500 uppercase">// RISK_MODEL_V1</span>
+                            <span class="text-emerald-400 font-bold uppercase">PARITY SIZING</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors uppercase tracking-wide">
+                            Risk & Position Size Calculator
+                        </h3>
+                        <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">
+                            Calculate exact position size limits in standard lots based on custom invalidation levels, account balance, and real-time pip values.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-3 border-t border-zinc-900 flex justify-between font-mono text-xs text-emerald-400 font-bold uppercase">
+                        <span>Launch Calculator</span>
+                        <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION SEPARATION DIVIDER BAR -->
+    <div class="w-full bg-[#050810] relative py-2.5 border-y border-zinc-800 flex items-center justify-center">
+        <div class="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent"></div>
+        <span class="absolute bg-[#090e1a] px-4 py-0.5 font-mono text-[9px] text-cyan-400 tracking-[0.25em] uppercase border border-cyan-500/30 rounded-full shadow-lg">
+            // DIVISION 03 &bull; POLICY & CONSENSUS INTELLIGENCE
+        </span>
+    </div>
+
+    <!-- SECTION 03: POLICY EXPECTATIONS & CONSENSUS (Clearly Brighter Slate #101626) -->
+    <section class="w-full py-16 sm:py-20 border-b border-zinc-800 bg-[#101626]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-zinc-900">
+                <div>
+                    <span class="font-mono text-[10px] text-cyan-500 tracking-[0.3em] uppercase block mb-2">
+                        // SECTION 03 // CENTRAL BANK POLICY & SURPRISE RADAR
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
+                        Policy Expectations & Consensus
+                    </h2>
+                </div>
+                <p class="text-xs text-zinc-400 font-sans max-w-md font-light">
+                    Implied forward rates, automated stance classification, and forecast range surprise evaluators.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Central Bank Terminal -->
+                <a href="tools/central-banks.html" class="group bg-[#040406] border border-zinc-900 hover:border-cyan-500/50 p-6 sm:p-8 rounded-sm transition-all flex flex-col justify-between">
+                    <div class="space-y-3 font-mono">
+                        <div class="flex items-center justify-between text-[10px]">
+                            <span class="text-zinc-500 uppercase">// POLICY_RADAR_V2</span>
+                            <span class="text-cyan-400 font-bold uppercase">G10 TERMINAL</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors uppercase tracking-wide">
+                            Central Bank Rate Terminal
+                        </h3>
+                        <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">
+                            Real-time monetary policy expectations, automated tone classification (Hawkish/Dovish), meeting countdowns, and implied trajectory curves.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-3 border-t border-zinc-900 flex justify-between font-mono text-xs text-cyan-500 font-bold uppercase">
+                        <span>Open Bank Terminal</span>
+                        <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                    </div>
+                </a>
+
+                <!-- Consensus Engine -->
+                <a href="tools/consensus-filter-engine.html" class="group bg-[#040406] border border-zinc-900 hover:border-cyan-500/50 p-6 sm:p-8 rounded-sm transition-all flex flex-col justify-between">
+                    <div class="space-y-3 font-mono">
+                        <div class="flex items-center justify-between text-[10px]">
+                            <span class="text-zinc-500 uppercase">// EXPECTATIONS_V1</span>
+                            <span class="text-cyan-400 font-bold uppercase">SURPRISE MATRIX</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors uppercase tracking-wide">
+                            Consensus Filter Hub
+                        </h3>
+                        <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">
+                            Filter macroeconomic forecast ranges, monitor actual results vs. consensus, and classify Beat vs. Miss surprises with regional filtering.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-3 border-t border-zinc-900 flex justify-between font-mono text-xs text-cyan-500 font-bold uppercase">
+                        <span>Open Consensus Hub</span>
+                        <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. DYNAMIC FOOTER CONTAINER -->
+    <div id="global-footer"></div>
+
+    <script src="js/inject-engine.js"></script>
+</body>
+</html>

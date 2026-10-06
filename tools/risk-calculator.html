@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAIROS GLOBAL RESEARCH // POSITION CALCULATOR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        body { background-color: #020203; color: #d4d4d8; font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#020203] text-zinc-300 antialiased min-h-screen flex flex-col justify-between selection:bg-cyan-900 selection:text-cyan-100">
+
+    <!-- 1. DYNAMIC HEADER CONTAINER -->
+    <div id="global-header"></div>
+
+    <!-- 2. TICKER TAPE -->
+    <div class="w-full bg-[#020203] border-b border-zinc-900 overflow-hidden h-[46px] flex items-center shrink-0">
+        <div class="flex items-center gap-6 overflow-x-auto w-full px-4 sm:px-6 font-mono text-xs select-none">
+            <span class="text-cyan-500 font-bold uppercase tracking-widest text-[9px] shrink-0 border-r border-zinc-800 pr-3 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                // LIVE TICKER
+            </span>
+            <div class="flex items-center gap-8 flex-nowrap min-w-max">
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">EUR/USD</span><span class="text-zinc-400">1.0845</span><span class="text-emerald-400 font-bold">+0.12%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">GBP/USD</span><span class="text-zinc-400">1.2982</span><span class="text-rose-400 font-bold">-0.08%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/JPY</span><span class="text-zinc-400">154.22</span><span class="text-emerald-400 font-bold">+0.35%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/CAD</span><span class="text-zinc-400">1.3615</span><span class="text-rose-400 font-bold">-0.15%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">XAU/USD</span><span class="text-zinc-400">2684.50</span><span class="text-emerald-400 font-bold">+0.88%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. HERO / HEADER SECTION -->
+    <section class="relative w-full py-10 sm:py-12 border-b border-zinc-900 bg-[#020203]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 font-mono">
+            <div class="space-y-3">
+                <a href="../tools.html" class="inline-flex items-center gap-2 text-xs text-zinc-500 hover:text-cyan-400 transition-colors uppercase">
+                    &larr; Return to Tools Hub
+                </a>
+                <div class="flex items-center gap-3">
+                    <span class="text-cyan-500 font-bold text-[10px] tracking-widest uppercase">// SIZING MODEL_V1</span>
+                    <span class="text-zinc-700">|</span>
+                    <span class="text-emerald-400 font-bold text-[10px] tracking-wider uppercase">PARITY ACCREDITED</span>
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-black text-white uppercase tracking-tight">
+                    Risk / Position Size Calculator
+                </h1>
+                <p class="text-xs text-zinc-400 font-sans max-w-2xl font-light leading-relaxed">
+                    Quantitative position unit sizing matrix with dynamic cross-currency exchange rate conversions.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. CALCULATOR INTERFACE -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono">
+            
+            <div class="bg-[#040406] border border-zinc-900 rounded-sm p-6 sm:p-8 space-y-4 shadow-xl">
+                <span class="text-zinc-500 text-[10px] uppercase tracking-widest block pb-2 border-b border-zinc-900">
+                    // CONFIGURATION INTERFACE
+                </span>
+                
+                <div class="space-y-1.5">
+                    <label class="text-xs text-zinc-400 block uppercase">Account Currency</label>
+                    <select id="calc-account-currency" class="w-full bg-[#0c0c12] border border-zinc-800 rounded-sm px-3 py-2 text-white focus:outline-none focus:border-cyan-500 text-xs font-semibold uppercase">
+                        <option value="USD">USD - US Dollar</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="GBP">GBP - British Pound</option>
+                        <option value="AUD">AUD - Australian Dollar</option>
+                        <option value="CAD">CAD - Canadian Dollar</option>
+                        <option value="CHF">CHF - Swiss Franc</option>
+                        <option value="JPY">JPY - Japanese Yen</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-xs text-zinc-400 block uppercase">Currency Pair</label>
+                    <select id="calc-pair" class="w-full bg-[#0c0c12] border border-zinc-800 rounded-sm px-3 py-2 text-white focus:outline-none focus:border-cyan-500 text-xs font-semibold uppercase">
+                        <option value="AUDCAD">AUD/CAD</option>
+                        <option value="AUDCHF">AUD/CHF</option>
+                        <option value="AUDJPY">AUD/JPY</option>
+                        <option value="AUDNZD">AUD/NZD</option>
+                        <option value="AUDUSD">AUD/USD</option>
+                        <option value="CADCHF">CAD/CHF</option>
+                        <option value="CADJPY">CAD/JPY</option>
+                        <option value="CHFJPY">CHF/JPY</option>
+                        <option value="EURAUD">EUR/AUD</option>
+                        <option value="EURCAD">EUR/CAD</option>
+                        <option value="EURCHF">EUR/CHF</option>
+                        <option value="EURGBP">EUR/GBP</option>
+                        <option value="EURJPY">EUR/JPY</option>
+                        <option value="EURNZD">EUR/NZD</option>
+                        <option value="EURUSD" selected>EUR/USD</option>
+                        <option value="GBPAUD">GBP/AUD</option>
+                        <option value="GBPCAD">GBP/CAD</option>
+                        <option value="GBPCHF">GBP/CHF</option>
+                        <option value="GBPJPY">GBP/JPY</option>
+                        <option value="GBPNZD">GBP/NZD</option>
+                        <option value="GBPUSD">GBP/USD</option>
+                        <option value="NZDCAD">NZD/CAD</option>
+                        <option value="NZDCHF">NZD/CHF</option>
+                        <option value="NZDJPY">NZD/JPY</option>
+                        <option value="NZDUSD">NZD/USD</option>
+                        <option value="USDCAD">USD/CAD</option>
+                        <option value="USDCHF">USD/CHF</option>
+                        <option value="USDJPY">USD/JPY</option>
+                    </select>
+                </div>
+                
+                <div class="space-y-1.5">
+                    <label class="text-xs text-zinc-400 block uppercase">Account Balance</label>
+                    <input id="calc-balance" type="number" value="10000" class="w-full bg-[#0c0c12] border border-zinc-800 rounded-sm px-3 py-2 text-white focus:outline-none focus:border-cyan-500 text-xs font-semibold tabular-nums">
+                </div>
+                
+                <div class="space-y-1.5">
+                    <label class="text-xs text-zinc-400 block uppercase">Risk Percentage (%)</label>
+                    <input id="calc-risk" type="number" value="1.0" step="0.1" class="w-full bg-[#0c0c12] border border-zinc-800 rounded-sm px-3 py-2 text-white focus:outline-none focus:border-cyan-500 text-xs font-semibold tabular-nums">
+                </div>
+                
+                <div class="space-y-1.5">
+                    <label class="text-xs text-zinc-400 block uppercase">Stop Loss (Pips)</label>
+                    <input id="calc-stop" type="number" value="20" class="w-full bg-[#0c0c12] border border-zinc-800 rounded-sm px-3 py-2 text-white focus:outline-none focus:border-cyan-500 text-xs font-semibold tabular-nums">
+                </div>
+                
+                <button onclick="executePositionMath()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-bold py-3 rounded-sm uppercase tracking-widest cursor-pointer transition-colors shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                    Calculate Allocation
+                </button>
+            </div>
+
+            <div class="bg-[#07080d] border border-zinc-800 rounded-sm p-6 sm:p-8 flex flex-col justify-between shadow-xl">
+                <div class="space-y-6">
+                    <span class="text-zinc-500 text-[10px] uppercase tracking-widest block pb-2 border-b border-zinc-800">
+                        // TELEMETRY METRIC TARGETS
+                    </span>
+                    
+                    <div class="space-y-4 divide-y divide-zinc-800/80">
+                        <div class="pt-1">
+                            <span class="text-xs text-zinc-400 block uppercase">Absolute Capital Outlay Risk</span>
+                            <span id="out-cash" class="text-xl font-black text-rose-400 tabular-nums">$100.00 USD</span>
+                        </div>
+                        <div class="pt-3">
+                            <span class="text-xs text-zinc-400 block uppercase">Position Sizing Lot Equivalent</span>
+                            <span id="out-lots" class="text-2xl font-black text-cyan-400 tabular-nums">0.50 <span class="text-xs font-medium text-zinc-500">Lots</span></span>
+                        </div>
+                        <div class="pt-3">
+                            <span class="text-xs text-zinc-400 block uppercase">Relative Pip Value</span>
+                            <span id="out-pipval" class="text-sm font-semibold text-zinc-200 tabular-nums">$5.00 USD / pip</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-[10px] text-zinc-500 uppercase mt-6 border-t border-zinc-800 pt-3 font-sans font-light">
+                    Calculations dynamically pull conversion rates via real-time matrix for multi-cross-currency parity accuracy.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 5. DYNAMIC FOOTER CONTAINER -->
+    <div id="global-footer"></div>
+
+    <script src="../js/inject-engine.js"></script>
+    <script>
+        let exchangeRates = null;
+
+        async function fetchLiveRates() {
+            try {
+                const res = await fetch('https://open.er-api.com/v6/latest/USD');
+                if (res.ok) {
+                    const data = await res.json();
+                    exchangeRates = data.rates;
+                }
+            } catch(e) {
+                // fallback
+            } finally {
+                executePositionMath();
+            }
+        }
+
+        function getExchangeRate(fromCurrency, toCurrency) {
+            if (!exchangeRates || fromCurrency === toCurrency) return 1.0; 
+            const rateFromUSD = exchangeRates[fromCurrency] || 1;
+            const rateToUSD = exchangeRates[toCurrency] || 1;
+            return rateToUSD / rateFromUSD;
+        }
+
+        function executePositionMath() {
+            const acctCurr = document.getElementById('calc-account-currency').value;
+            const pair = document.getElementById('calc-pair').value;
+            const balance = parseFloat(document.getElementById('calc-balance').value) || 0;
+            const riskPct = parseFloat(document.getElementById('calc-risk').value) || 0;
+            const stopPips = parseFloat(document.getElementById('calc-stop').value) || 0;
+
+            if (balance <= 0 || riskPct <= 0 || stopPips <= 0) return;
+
+            const cashRisk = balance * (riskPct / 100);
+            const quoteCurr = pair.substring(3, 6);
+            const pipSize = (quoteCurr === 'JPY') ? 0.01 : 0.0001;
+            const standardContractUnits = 100000;
+            const standardPipValueInQuote = pipSize * standardContractUnits; 
+
+            const conversionFactor = getExchangeRate(quoteCurr, acctCurr);
+            const pipValueInAccountPerLot = standardPipValueInQuote * conversionFactor;
+
+            let standardLots = cashRisk / (stopPips * pipValueInAccountPerLot);
+            if (standardLots < 0.01) standardLots = 0.01;
+            const runningPipVal = standardLots * pipValueInAccountPerLot;
+
+            document.getElementById('out-cash').textContent = '$' + cashRisk.toFixed(2) + ' ' + acctCurr;
+            document.getElementById('out-lots').innerHTML = standardLots.toFixed(2) + ' <span class="text-xs font-medium text-zinc-500">Lots</span>';
+            document.getElementById('out-pipval').textContent = '$' + runningPipVal.toFixed(2) + ' ' + acctCurr + ' / pip';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            executePositionMath();
+            fetchLiveRates();
+
+            document.querySelectorAll('input, select').forEach(element => {
+                element.addEventListener('input', executePositionMath);
+                element.addEventListener('change', executePositionMath);
+            });
+        });
+    </script>
+</body>
+</html>

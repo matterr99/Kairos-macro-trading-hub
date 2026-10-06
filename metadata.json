@@ -1,0 +1,7 @@
+{
+  "name": "Kairos Global Research // Macroeconomic Analysis Terminal",
+  "description": "Institutional macro risk engine, currency strength matrix, central bank expectations, and systematic quantitative trading intelligence terminal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

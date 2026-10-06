@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAIROS GLOBAL RESEARCH // INTELLIGENCE LOGS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body { background-color: #020203; color: #d4d4d8; font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#020203] text-zinc-300 antialiased min-h-screen flex flex-col justify-between selection:bg-cyan-900 selection:text-cyan-100">
+
+    <!-- 1. DYNAMIC HEADER CONTAINER -->
+    <div id="global-header"></div>
+
+    <!-- 2. TICKER TAPE -->
+    <div class="w-full bg-[#020203] border-b border-zinc-900 overflow-hidden h-[46px] flex items-center shrink-0">
+        <div class="flex items-center gap-6 overflow-x-auto w-full px-4 sm:px-6 font-mono text-xs select-none">
+            <span class="text-cyan-500 font-bold uppercase tracking-widest text-[9px] shrink-0 border-r border-zinc-800 pr-3 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                // LIVE TICKER
+            </span>
+            <div class="flex items-center gap-8 flex-nowrap min-w-max">
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">EUR/USD</span><span class="text-zinc-400">1.0845</span><span class="text-emerald-400 font-bold">+0.12%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">GBP/USD</span><span class="text-zinc-400">1.2982</span><span class="text-rose-400 font-bold">-0.08%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/JPY</span><span class="text-zinc-400">154.22</span><span class="text-emerald-400 font-bold">+0.35%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">USD/CAD</span><span class="text-zinc-400">1.3615</span><span class="text-rose-400 font-bold">-0.15%</span></div>
+                <div class="flex items-center gap-2"><span class="text-zinc-300 font-bold">XAU/USD</span><span class="text-zinc-400">2684.50</span><span class="text-emerald-400 font-bold">+0.88%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. CHANNELS BAR -->
+    <div class="w-full bg-[#040406] border-b border-zinc-900 py-3.5 sm:py-4 overflow-x-auto select-none">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-nowrap items-center justify-between min-w-max gap-8 sm:gap-12 font-mono text-xs tracking-[0.2em] uppercase text-zinc-500">
+            <span class="text-cyan-500 font-bold sticky left-0 bg-[#040406] pr-4 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-cyan-500 rounded-sm"></span>
+                // Channels
+            </span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> G10 Currency Majors</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Relative Pip Volatility</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Macro Event Risk Feeds</span>
+            <span class="flex items-center gap-2 text-zinc-400"><span class="w-1.5 h-1.5 bg-zinc-700 rounded-full"></span> Interest Rate Differentials</span>
+        </div>
+    </div>
+
+    <!-- 4. HERO SECTION -->
+    <section class="relative w-full py-12 sm:py-16 border-b border-zinc-900 bg-[#020203]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <div class="flex items-center gap-3 font-mono">
+                <span class="text-cyan-500 font-bold text-[10px] sm:text-[11px] tracking-[0.25em] uppercase">
+                    // HISTORICAL INTELLIGENCE RECON
+                </span>
+                <span class="text-zinc-700">|</span>
+                <span class="text-emerald-400 font-bold text-[10px] tracking-wider uppercase flex items-center gap-1.5">
+                    FEED SYNCHRONIZED
+                </span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight leading-tight">
+                Research Feed Logs
+            </h1>
+
+            <p className="text-sm sm:text-base text-zinc-400 font-sans max-w-3xl font-light leading-relaxed">
+                Documenting trailing asset alignment metrics, order flow cycles, central bank yield divergence, and systematic trade hypothesis validations for macro discretionary allocators.
+            </p>
+        </div>
+    </section>
+
+    <!-- 5. MAIN CONTENT -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-12">
+        
+        <!-- Featured Article Card -->
+        <a href="articles/lines-dont-move-capital.html" class="group block bg-[#040406] border border-zinc-900 hover:border-cyan-500/60 p-6 sm:p-10 rounded-sm transition-all relative overflow-hidden shadow-xl">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform"></div>
+            
+            <div class="relative z-10 space-y-4 max-w-4xl">
+                <div class="flex flex-wrap items-center gap-3 font-mono text-[10px]">
+                    <span class="bg-cyan-500 text-black px-2.5 py-0.5 font-bold uppercase tracking-wider rounded-sm">
+                        FEATURED DOSSIER
+                    </span>
+                    <span class="text-cyan-400 font-bold tracking-widest uppercase">
+                        MACRO VS. TECHNICAL
+                    </span>
+                    <span class="text-zinc-600">•</span>
+                    <span class="text-zinc-400">6 MIN READ</span>
+                </div>
+
+                <h2 class="text-xl sm:text-3xl font-black text-white group-hover:text-cyan-400 transition-colors uppercase tracking-tight">
+                    Why Your Lines and Indicators Don't Move Capital: The Harsh Truth About Technical Analysis
+                </h2>
+
+                <p className="text-zinc-400 font-sans text-sm sm:text-base leading-relaxed font-light">
+                    Chart setups don't fail because you drew lines wrong—they fail because lines don't move financial markets. An examination of macroeconomics, interest rate mechanics, and institutional capital flow over retail technical analysis.
+                </p>
+
+                <div class="pt-4 flex items-center gap-4 font-mono text-xs text-cyan-400 font-bold uppercase tracking-widest">
+                    <span>Read Full File</span>
+                    <span class="group-hover:translate-x-2 transition-transform text-base">&rarr;</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Desk Pillars -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-[#040406] border border-zinc-900 rounded-sm p-6 flex flex-col justify-between">
+                <div class="space-y-3 font-mono">
+                    <span class="text-cyan-400 text-[10px] font-bold uppercase">// RECON_DESK_V1</span>
+                    <h3 class="text-base font-bold text-white uppercase tracking-wide">Sovereign Yield Reports</h3>
+                    <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">Detailed reports examining long-term global economic trends, major country policies, and 2Y/10Y yield shifts.</p>
+                </div>
+                <div class="mt-8 pt-3 border-t border-zinc-900 font-mono text-[10px] text-zinc-500 flex justify-between">
+                    <span>STATUS</span><span class="text-emerald-400 font-bold">ONLINE</span>
+                </div>
+            </div>
+
+            <div class="bg-[#040406] border border-zinc-900 rounded-sm p-6 flex flex-col justify-between">
+                <div class="space-y-3 font-mono">
+                    <span class="text-cyan-400 text-[10px] font-bold uppercase">// STRAT_LOG_V2</span>
+                    <h3 class="text-base font-bold text-white uppercase tracking-wide">Systematic Strategy Logs</h3>
+                    <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">Technical analysis writeups, indicator guides, backtesting review logs, and step-by-step strategy frameworks.</p>
+                </div>
+                <div class="mt-8 pt-3 border-t border-zinc-900 font-mono text-[10px] text-zinc-500 flex justify-between">
+                    <span>STATUS</span><span class="text-emerald-400 font-bold">ONLINE</span>
+                </div>
+            </div>
+
+            <div class="bg-[#040406] border border-zinc-900 rounded-sm p-6 flex flex-col justify-between">
+                <div class="space-y-3 font-mono">
+                    <span class="text-cyan-400 text-[10px] font-bold uppercase">// FEED_WIRE_V1</span>
+                    <h3 class="text-base font-bold text-white uppercase tracking-wide">Central Bank Wire</h3>
+                    <p class="text-xs text-zinc-400 font-sans leading-relaxed font-light">Fast session updates tracking intraday price movements, sudden market moves, and upcoming breaking news alerts.</p>
+                </div>
+                <div class="mt-8 pt-3 border-t border-zinc-900 font-mono text-[10px] text-zinc-500 flex justify-between">
+                    <span>STATUS</span><span class="text-emerald-400 font-bold">ONLINE</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Archive Feed -->
+        <div class="space-y-4 pt-4 border-t border-zinc-900">
+            <span class="text-zinc-500 font-mono text-[10px] tracking-widest uppercase block">// MORE CLASSIFIED LOGS</span>
+            
+            <a href="articles/lines-dont-move-capital.html" class="group block border-b border-zinc-900 pb-5 hover:pl-2 sm:hover:pl-4 transition-all">
+                <div class="flex flex-col md:flex-row gap-2 sm:gap-4 md:items-center justify-between">
+                    <div class="space-y-1">
+                        <span class="text-zinc-500 font-mono text-[10px] tracking-widest uppercase block">CENTRAL BANK POLICY • 2 DAYS AGO</span>
+                        <h3 class="text-base sm:text-lg font-bold text-zinc-200 group-hover:text-white transition-colors">
+                            Divergence in the G10: Tracking the ECB vs. Fed Rate Path Timeline
+                        </h3>
+                    </div>
+                    <span class="text-cyan-600 font-mono text-xs font-bold uppercase group-hover:text-cyan-400 transition-colors">Access &rarr;</span>
+                </div>
+            </a>
+
+            <a href="articles/lines-dont-move-capital.html" class="group block border-b border-zinc-900 pb-5 hover:pl-2 sm:hover:pl-4 transition-all">
+                <div class="flex flex-col md:flex-row gap-2 sm:gap-4 md:items-center justify-between">
+                    <div class="space-y-1">
+                        <span class="text-zinc-500 font-mono text-[10px] tracking-widest uppercase block">STRUCTURAL RISK • 1 WEEK AGO</span>
+                        <h3 class="text-base sm:text-lg font-bold text-zinc-200 group-hover:text-white transition-colors">
+                            Volatility Dispersion across Core Dollar Pairings in Q3
+                        </h3>
+                    </div>
+                    <span class="text-cyan-600 font-mono text-xs font-bold uppercase group-hover:text-cyan-400 transition-colors">Access &rarr;</span>
+                </div>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- 6. DYNAMIC FOOTER CONTAINER -->
+    <div id="global-footer"></div>
+
+    <script src="js/inject-engine.js"></script>
+</body>
+</html>

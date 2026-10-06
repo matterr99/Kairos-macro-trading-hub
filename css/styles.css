@@ -1,0 +1,15 @@
+/* Modern Minimalist Navigation Token Resets */
+body { background-color: #020203; color: #d4d4d8; font-family: 'Inter', system-ui, sans-serif; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #020203; }
+::-webkit-scrollbar-thumb { background: #18181b; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #27272a; }
+
+.active-tab {
+    color: #06b6d4 !important;
+    border-bottom: 2px solid #06b6d4;
+}
+
+.hero-gradient { 
+    background: linear-gradient(0deg, rgba(2,2,3,1) 0%, rgba(2,2,3,0.7) 50%, rgba(2,2,3,0.3) 100%); 
+}

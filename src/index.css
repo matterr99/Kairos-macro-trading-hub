@@ -1,0 +1,309 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --color-kairos-bg: #020203;
+  --color-kairos-alt: #07080d;
+  --color-kairos-panel: #040406;
+  --color-kairos-input: #0c0c12;
+  --color-kairos-border: #18181b;
+}
+
+/* Global reset for squared edges */
+*, ::before, ::after {
+  border-radius: 0px !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+body {
+  background-color: #020203;
+  color: #d4d4d8;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #020203;
+}
+::-webkit-scrollbar-thumb {
+  background: #18181b;
+  border-radius: 0px !important;
+  border: 1px solid #020203;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #27272a;
+}
+
+/* Touch-friendly momentum scrolling for tables and tab bars on iPad & iOS */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hero-gradient {
+  background: linear-gradient(0deg, rgba(2,2,3,1) 0%, rgba(2,2,3,0.7) 50%, rgba(2,2,3,0.3) 100%);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 40s linear infinite;
+}
+
+.animate-marquee-left:hover {
+  animation-play-state: paused;
+}
+
+/* ========================================================================= */
+/* 3D ELEVATED SQUARED CONTAINERS (WITH CONTRASTING POP-OUT SHADOW)          */
+/* ========================================================================= */
+
+.macro-card,
+.macro-panel,
+.day-card {
+  background: linear-gradient(180deg, #0e111a 0%, #07080e 100%);
+  border: 1px solid rgba(82, 82, 91, 0.5);
+  border-radius: 0px !important;
+  box-shadow: 
+    0 20px 48px -4px rgba(0, 0, 0, 0.95),
+    0 0 32px 1px rgba(6, 182, 212, 0.18),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.22s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .macro-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.85);
+    box-shadow: 
+      0 28px 56px -8px rgba(0, 0, 0, 0.98),
+      0 0 40px 4px rgba(6, 182, 212, 0.35),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.24);
+  }
+}
+
+/* Static elevated panel without hover translation */
+.macro-panel,
+.day-card {
+  box-shadow: 
+    0 20px 48px -4px rgba(0, 0, 0, 0.95),
+    0 0 32px 1px rgba(6, 182, 212, 0.16),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+/* ========================================================================= */
+/* LIGHT THEME COMPREHENSIVE OVERRIDES                                        */
+/* ========================================================================= */
+
+.light-theme {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+}
+
+.light-theme body,
+.light-theme main {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+}
+
+/* Background surfaces */
+.light-theme .bg-\[\#020203\],
+.light-theme .bg-\[\#040406\],
+.light-theme .bg-\[\#030305\],
+.light-theme .bg-\[\#010101\] {
+  background-color: #f8fafc !important;
+}
+
+.light-theme .bg-\[\#07080c\],
+.light-theme .bg-\[\#07080c\]\/95,
+.light-theme .bg-\[\#07080c\]\/90,
+.light-theme .bg-\[\#07080d\],
+.light-theme .bg-\[\#090a10\],
+.light-theme .bg-\[\#0b0f19\],
+.light-theme .bg-\[\#07090e\],
+.light-theme .bg-\[\#0c0d11\],
+.light-theme .bg-\[\#0d0e12\],
+.light-theme .bg-\[\#0e0f14\],
+.light-theme .bg-\[\#0c0c12\],
+.light-theme .bg-\[\#08080c\],
+.light-theme .bg-\[\#05060a\],
+.light-theme .bg-\[\#090b12\],
+.light-theme .bg-\[\#14151a\],
+.light-theme .bg-\[\#181920\],
+.light-theme .bg-\[\#121318\],
+.light-theme .bg-\[\#10121a\] {
+  background-color: #ffffff !important;
+}
+
+.light-theme .bg-\[\#121316\] {
+  background-color: #f1f5f9 !important;
+}
+
+.light-theme .bg-zinc-900,
+.light-theme .bg-zinc-900\/50,
+.light-theme .bg-zinc-900\/60,
+.light-theme .bg-zinc-900\/80,
+.light-theme .bg-zinc-900\/90 {
+  background-color: #e2e8f0 !important;
+}
+
+.light-theme .bg-zinc-950,
+.light-theme .bg-zinc-950\/60,
+.light-theme .bg-zinc-950\/80 {
+  background-color: #f1f5f9 !important;
+}
+
+/* Light Mode 3D Squared Cards */
+.light-theme .macro-card,
+.light-theme .macro-panel,
+.light-theme .day-card {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 0px !important;
+  box-shadow: 
+    0 18px 40px -4px rgba(15, 23, 42, 0.16),
+    0 4px 14px -2px rgba(15, 23, 42, 0.08),
+    0 0 24px -2px rgba(8, 145, 178, 0.2),
+    inset 0 1px 0 0 #ffffff !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .light-theme .macro-card:hover {
+    transform: translateY(-4px);
+    border-color: #0891b2 !important;
+    box-shadow: 
+      0 26px 52px -6px rgba(15, 23, 42, 0.22),
+      0 0 28px 3px rgba(8, 145, 178, 0.3) !important;
+  }
+}
+
+/* Typography Colors */
+.light-theme .text-white {
+  color: #0f172a !important;
+}
+
+.light-theme .text-zinc-100,
+.light-theme .text-zinc-200,
+.light-theme .text-zinc-300 {
+  color: #1e293b !important;
+}
+
+.light-theme .text-zinc-400 {
+  color: #475569 !important;
+}
+
+.light-theme .text-zinc-500 {
+  color: #64748b !important;
+}
+
+.light-theme .text-zinc-600 {
+  color: #94a3b8 !important;
+}
+
+/* Borders */
+.light-theme .border-zinc-800,
+.light-theme .border-zinc-800\/30,
+.light-theme .border-zinc-800\/40,
+.light-theme .border-zinc-800\/50,
+.light-theme .border-zinc-800\/60,
+.light-theme .border-zinc-800\/70,
+.light-theme .border-zinc-800\/80,
+.light-theme .border-zinc-800\/90,
+.light-theme .border-zinc-900,
+.light-theme .border-zinc-900\/60,
+.light-theme .border-zinc-700,
+.light-theme .border-zinc-700\/50,
+.light-theme .border-zinc-700\/60 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Form Controls */
+.light-theme input,
+.light-theme select,
+.light-theme textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light-theme input::placeholder,
+.light-theme textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Scrollbars in Light Mode */
+.light-theme ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.light-theme ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border: 1px solid #f1f5f9;
+}
+.light-theme ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* TradingView Widget Mobile & Desktop Responsive Sizing */
+.tradingview-widget-container {
+  width: 100% !important;
+  height: 46px !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+.tradingview-widget-container__widget {
+  width: 100% !important;
+  height: 46px !important;
+}
+
+.tradingview-widget-container iframe {
+  width: 100% !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
+  border: 0 !important;
+  display: block !important;
+}
+
+.tradingview-widget-copyright {
+  display: none !important;
+}
+

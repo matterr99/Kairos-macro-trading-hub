@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kairos Macro Hub // Motor Unificado de Riesgo y Divergencias</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  
+  <!-- External stylesheet link -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body { background-color: #030305; color: #d4d4d8; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #030305; }
+    ::-webkit-scrollbar-thumb { background: #18181b; border-radius: 3px; }
+
+    /* ESTILOS DE IMPRESIÓN RIGUROSOS */
+    @media screen { #outputContainer { display: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body, html { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; }
+      #outputContainer { display: block !important; width: 100% !important; background: white !important; color: black !important; }
+      .page-break { page-break-before: always; }
+      table, tr, .report-card, .day-card { break-inside: avoid !important; page-break-inside: avoid !important; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+
+    .badge-USD { background-color: #D9E1F2; color: #1E293B; }
+    .badge-EUR { background-color: #FFF2CC; color: #1E293B; }
+    .badge-GBP { background-color: #E2EFDA; color: #1E293B; }
+    .badge-JPY { background-color: #FCE4D6; color: #1E293B; }
+    .badge-CAD { background-color: #E1D5E7; color: #1E293B; }
+    .badge-AUD { background-color: #D5E8D4; color: #1E293B; }
+    .badge-NZD { background-color: #DAE8FC; color: #1E293B; }
+    .badge-CHF { background-color: #F8CECC; color: #1E293B; }
+    .badge-CNH, .badge-CNY { background-color: #FFE6CC; color: #1E293B; }
+    .badge-DEFAULT { background-color: #E2E8F0; color: #1E293B; }
+
+    .core-row-highlight {
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.14) 0%, rgba(6, 182, 212, 0.08) 100%) !important;
+      border-left: 3px solid #f59e0b !important;
+    }
+
+    .score-btn {
+      width: 2rem !important;
+      height: 1.5rem !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+      flex-shrink: 0 !important;
+      font-weight: 700 !important;
+    }
+
+    .score-btn-active-p2 { background-color: #059669 !important; color: white !important; border-color: #10b981 !important; }
+    .score-btn-active-p1 { background-color: #10b981 !important; color: white !important; border-color: #34d399 !important; }
+    .score-btn-active-0  { background-color: #3f3f46 !important; color: white !important; border-color: #71717a !important; }
+    .score-btn-active-m1 { background-color: #f43f5e !important; color: white !important; border-color: #fb7185 !important; }
+    .score-btn-active-m2 { background-color: #be123c !important; color: white !important; border-color: #e11d48 !important; }
+
+    .score-scale-strong-bullish { background-color: rgba(16, 185, 129, 0.15) !important; color: #34d399 !important; border: 1px solid rgba(16, 185, 129, 0.4) !important; }
+    .score-scale-bullish { background-color: rgba(234, 179, 8, 0.15) !important; color: #facc15 !important; border: 1px solid rgba(234, 179, 8, 0.4) !important; }
+    .score-scale-neutral { background-color: rgba(63, 63, 70, 0.3) !important; color: #a1a1aa !important; border: 1px solid rgba(113, 113, 122, 0.3) !important; }
+    .score-scale-bearish { background-color: rgba(249, 115, 22, 0.15) !important; color: #fb923c !important; border: 1px solid rgba(249, 115, 22, 0.4) !important; }
+    .score-scale-strong-bearish { background-color: rgba(225, 29, 72, 0.15) !important; color: #fb7185 !important; border: 1px solid rgba(225, 29, 72, 0.4) !important; }
+  </style>
+</head>
+<body class="bg-[#020203] text-zinc-300 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- 1. DYNAMIC HEADER CONTAINER -->
+  <div id="global-header"></div>
+
+  <!-- 2. MAIN CONTENT BODY -->
+  <main class="flex-grow w-full max-w-6xl mx-auto px-3 md:px-6 py-6">
+    <div class="space-y-6 no-print">
+      
+      <!-- Encabezado Principal -->
+      <div class="bg-[#090a10] p-5 md:p-6 rounded-2xl border border-zinc-800 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+            <span>⚡</span> Kairos Macro Hub
+          </h1>
+          <p class="text-zinc-400 text-xs mt-1">Motor de análisis macro con restauración inteligente de respaldos JSON y filtros rigurosos</p>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <a href="../tools.html" class="font-mono text-[11px] text-zinc-400 hover:text-cyan-400 transition-colors border border-zinc-800 bg-[#08080c] px-3 py-2 rounded-lg">
+            &larr; VOLVER AL CENTRO DE HERRAMIENTAS
+          </a>
+          <button type="button" id="adminLoginBtn" onclick="promptAdminLogin()" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs px-3 py-2 rounded-lg font-bold transition cursor-pointer">
+            🔑 Admin Login
+          </button>
+          <button type="button" onclick="lockCurrentAsPreviousWeek()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs px-3 py-2 rounded-lg font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+            📌 Fijar como Semana Previa
+          </button>
+          <button type="button" onclick="exportStateJSON()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 text-xs px-3 py-2 rounded-lg transition cursor-pointer">
+            📥 Exportar Backup Total
+          </button>
+          <button type="button" onclick="document.getElementById('jsonInput').click()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 text-xs px-3 py-2 rounded-lg transition cursor-pointer">
+            📤 Cargar Backup
+          </button>
+          <input type="file" id="jsonInput" accept=".json" class="hidden" onchange="importStateJSON(event)" />
+          
+          <button type="button" onclick="resetAllScores()" class="bg-rose-950/20 hover:bg-rose-900/40 text-rose-300 border border-rose-900/40 text-xs px-3 py-2 rounded-lg transition cursor-pointer">
+            🗑️ Reiniciar Todo
+          </button>
+          <button type="button" onclick="triggerPrint()" class="bg-cyan-500 hover:bg-cyan-400 text-black text-xs px-4 py-2 rounded-lg font-bold shadow-md transition cursor-pointer">
+            Exportar PDF &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Carga de Archivos Excel -->
+      <div id="dropZone" class="bg-[#07080d] border border-dashed border-zinc-800 hover:border-cyan-500/60 rounded-2xl p-6 text-center transition cursor-pointer group">
+        <input type="file" id="excelInput" accept=".xlsx, .xls" class="hidden" onchange="handleFileSelect(event)" />
+        <div class="space-y-1.5">
+          <svg class="mx-auto h-8 w-8 text-zinc-500 group-hover:text-cyan-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <div class="text-xs font-medium text-zinc-300">
+            Arrastra tu archivo <span class="text-cyan-400 font-semibold">Excel de Investing.com (.xlsx) aquí</span> o haz clic para explorar
+          </div>
+        </div>
+      </div>
+
+      <!-- ESCÁNER DE DIVERGENCIAS MACRO DETECTADAS -->
+      <div id="divergenceAlertBox" class="hidden bg-[#07080d] border border-cyan-500/30 p-5 rounded-2xl font-mono space-y-4 shadow-2xl transition-all duration-300">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-cyan-500/20 pb-3 gap-2">
+          <span class="text-cyan-400 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+            <span>⚡</span> Escáner de Divergencias Macro Detectadas
+          </span>
+          <div class="flex items-center gap-2">
+            <span id="divergenceCountBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2.5 py-1 rounded-lg font-bold">0 Pares Aprobados</span>
+            <button type="button" id="toggleExpandDivergenceBtn" onclick="toggleDivergenceExpand()" class="hidden bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 text-[11px] px-3 py-1 rounded-lg font-bold transition flex items-center gap-1 shadow-sm cursor-pointer">
+              ↕️ Expandir Vista (Todos)
+            </button>
+          </div>
+        </div>
+        
+        <div id="divergenceList" class="space-y-3"></div>
+
+        <div id="divergenceFooterExpand" class="hidden text-center pt-2 border-t border-zinc-800/80">
+          <button type="button" onclick="toggleDivergenceExpand()" class="text-xs text-cyan-400 hover:text-cyan-300 font-bold tracking-wider uppercase font-mono transition inline-flex items-center gap-1 cursor-pointer">
+            <span id="divergenceFooterText">Mostrar todos los pares aprobados ↓</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- MATRIZ VIVA DE FUERZA GLOBAL E INTERMERCADO -->
+      <div id="liveMatrixContainer" class="hidden space-y-6">
+        <div class="bg-[#07080d] border border-zinc-800 p-5 rounded-2xl space-y-4 shadow-lg">
+          <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Matriz de Fuerza Global en Tiempo Real</h3>
+            <div class="flex items-center gap-1.5 text-[9px] font-mono">
+              <span class="px-1.5 py-0.5 rounded score-scale-strong-bullish font-bold">+4 a +10</span>
+              <span class="px-1.5 py-0.5 rounded score-scale-bullish font-bold">+1 a +3</span>
+              <span class="px-1.5 py-0.5 rounded score-scale-neutral font-bold">0</span>
+              <span class="px-1.5 py-0.5 rounded score-scale-bearish font-bold">-1 a -3</span>
+              <span class="px-1.5 py-0.5 rounded score-scale-strong-bearish font-bold">-4 a -10</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-2 font-mono">Sección A: Divisas Forex Core</span>
+              <table class="w-full text-xs text-left">
+                <thead>
+                  <tr class="text-zinc-500 text-[10px] border-b border-zinc-800 font-mono uppercase">
+                    <th class="p-2">Divisa</th>
+                    <th class="p-2 text-center">Previo (Manual/Fijo)</th>
+                    <th class="p-2 text-center">Eventos (Auto)</th>
+                    <th class="p-2 text-center">Total Combinado</th>
+                  </tr>
+                </thead>
+                <tbody id="matrixForexBody"></tbody>
+              </table>
+            </div>
+
+            <div>
+              <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-2 font-mono">Sección B: Materias Primas y Riesgo</span>
+              <table class="w-full text-xs text-left">
+                <thead>
+                  <tr class="text-zinc-500 text-[10px] border-b border-zinc-800 font-mono uppercase">
+                    <th class="p-2">Activo</th>
+                    <th class="p-2 text-center">Previo (Manual/Fijo)</th>
+                    <th class="p-2 text-center">Evaluación</th>
+                    <th class="p-2 text-center">Total Combinado</th>
+                  </tr>
+                </thead>
+                <tbody id="matrixIntermarketBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BARRA DE FILTROS DEL CALENDARIO -->
+      <div id="calendarFilterBar" class="hidden bg-[#07080d] border border-zinc-800 p-3 rounded-2xl flex flex-col md:flex-row gap-3 justify-between items-center text-xs">
+        <div class="flex items-center gap-1.5 flex-wrap" id="currencyFilterGroup">
+          <span class="text-zinc-500 text-[10px] font-bold uppercase mr-1">Filtrar:</span>
+          <button type="button" onclick="filterByCurrency('ALL')" class="currency-filter-btn px-2 py-1 rounded font-bold bg-cyan-500 text-black cursor-pointer">TODAS</button>
+          <button type="button" onclick="filterByCurrency('USD')" class="currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer">USD</button>
+          <button type="button" onclick="filterByCurrency('EUR')" class="currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer">EUR</button>
+          <button type="button" onclick="filterByCurrency('GBP')" class="currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer">GBP</button>
+          <button type="button" onclick="filterByCurrency('JPY')" class="currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer">JPY</button>
+          <button type="button" onclick="filterByCurrency('CAD')" class="currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer">CAD</button>
+          <button type="button" onclick="filterByCurrency('AUD')" class="currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer">AUD</button>
+          <button type="button" onclick="filterByCurrency('NZD')" class="currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer">NZD</button>
+          <button type="button" onclick="filterByCurrency('CHF')" class="currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer">CHF</button>
+          <button type="button" onclick="filterByCurrency('CNH')" class="currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer">CNH</button>
+          
+          <span class="text-zinc-700 mx-1">|</span>
+          <button type="button" id="coreOnlyToggleBtn" onclick="toggleCoreFilter()" class="px-2.5 py-1 rounded bg-amber-950/40 text-amber-300 border border-amber-500/40 font-bold hover:bg-amber-900/60 transition flex items-center gap-1 cursor-pointer">
+            <span>🎯</span> Solo Core Principal
+          </button>
+        </div>
+        
+        <div class="w-full md:w-auto flex items-center gap-2">
+          <input type="text" id="eventSearchInput" oninput="applyCalendarFilters()" placeholder="🔍 Buscar evento..." class="w-full md:w-48 bg-[#030305] border border-zinc-700/60 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-cyan-400 font-mono" />
+        </div>
+      </div>
+
+      <!-- CALENDARIO INTERACTIVO POR DÍAS -->
+      <div id="interactiveCalendarContainer" class="space-y-8"></div>
+
+    </div>
+
+    <!-- ÁREA DE IMPRESIÓN PDF -->
+    <div id="outputContainer"></div>
+  </main>
+
+  <!-- 3. DYNAMIC FOOTER CONTAINER -->
+  <div id="global-footer"></div>
+
+  <!-- INJECTION ENGINE SCRIPT -->
+  <script src="../js/inject-engine.js"></script>
+
+  <script>
+    let adminToken = sessionStorage.getItem('kairos_admin_token') || null;
+
+    async function promptAdminLogin() {
+      const pwd = prompt("Ingrese la contraseña de Administrador:");
+      if (!pwd) return;
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pwd })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          adminToken = data.token;
+          sessionStorage.setItem('kairos_admin_token', adminToken);
+          alert("🔑 ¡Sesión de Administrador iniciada correctamente!");
+          updateAdminUI();
+        } else {
+          alert("❌ Contraseña incorrecta.");
+        }
+      } catch (err) {
+        alert("Error de conexión al servidor.");
+      }
+    }
+
+    function updateAdminUI() {
+      const btn = document.getElementById('adminLoginBtn');
+      if (btn) {
+        if (adminToken) {
+          btn.textContent = '🔓 Admin Activo';
+          btn.className = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs px-3 py-2 rounded-lg font-bold';
+        } else {
+          btn.textContent = '🔑 Admin Login';
+          btn.className = 'bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs px-3 py-2 rounded-lg font-bold transition cursor-pointer';
+        }
+      }
+    }
+
+    function escapeHtml(str) {
+      if (str === undefined || str === null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function normalizeText(str) {
+      if (!str) return '';
+      return str.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    const CORE_INDICATOR_RULES = [
+      // USD - 9 Indicators
+      { id: 'USD_ISM_MFG', ccy: 'USD', match: ['ism manufacturing pmi', 'ism mfg', 'ism manufacturing', 'pmi manufacturero del ism'], avoid: ['prices', 'employment', 'orders', 'services', 'non-manufacturing'] },
+      { id: 'USD_ISM_SERVICES', ccy: 'USD', match: ['ism non-manufacturing pmi', 'ism services pmi', 'ism services', 'pmi del sector servicios del ism', 'pmi no manufacturero'], avoid: ['prices', 'employment', 'orders'] },
+      { id: 'USD_CPI', ccy: 'USD', match: ['cpi', 'consumer price index', 'ipc'], avoid: ['core', 'ex food', 'subyacente'] },
+      { id: 'USD_UNEMP', ccy: 'USD', match: ['unemployment rate', 'tasa de desempleo'], avoid: ['youth', 'underemployment'] },
+      { id: 'USD_NFP', ccy: 'USD', match: ['nonfarm payrolls', 'non-farm payrolls', 'nfp', 'nominas no agricolas', 'empleo no agricola'], avoid: ['private', 'manufacturing', 'government'] },
+      { id: 'USD_RETAIL', ccy: 'USD', match: ['retail sales', 'ventas minoristas'], avoid: ['core', 'ex gas', 'control group', 'subyacente'] },
+      { id: 'USD_CB_CONF', ccy: 'USD', match: ['cb consumer confidence', 'confianza del consumidor de the conference board', 'confianza del consumidor de cb'], avoid: ['michigan'] },
+      { id: 'USD_NFIB', ccy: 'USD', match: ['nfib small business optimism', 'nfib small business index', 'nfib'], avoid: [] },
+      { id: 'USD_GDPNOW', ccy: 'USD', match: ['atlanta fed gdpnow', 'gdpnow', 'atlanta fed gdp'], avoid: [] },
+
+      // EUR - 9 Indicators
+      { id: 'EUR_HCOB_MFG', ccy: 'EUR', match: ['hcob euro zone manufacturing pmi', 'hcob eurozone manufacturing', 'euro zone manufacturing pmi', 'pmi manufacturero de la zona euro'], avoid: ['services', 'composite', 'construction', 'italy', 'france', 'spain', 'german'] },
+      { id: 'EUR_HCOB_SERV', ccy: 'EUR', match: ['hcob euro zone services pmi', 'hcob eurozone services', 'euro zone services pmi', 'pmi servicios de la zona euro'], avoid: ['mfg', 'manufacturing', 'composite', 'construction', 'italy', 'france', 'spain', 'german'] },
+      { id: 'EUR_CPI', ccy: 'EUR', match: ['cpi', 'hicp', 'ipc'], avoid: ['core', 'subyacente', 'tokyo', 'german', 'french', 'spanish', 'italian'] },
+      { id: 'EUR_UNEMP', ccy: 'EUR', match: ['euro zone unemployment rate', 'eurozone unemployment rate', 'tasa de desempleo de la zona euro'], avoid: ['youth', 'germany', 'german', 'french', 'spanish', 'italian', 'change', 'cambio'] },
+      { id: 'EUR_GER_UNEMP_CHG', ccy: 'EUR', match: ['german unemployment change', 'germany unemployment change', 'cambio del desempleo en alemania'], avoid: ['rate', 'tasa'] },
+      { id: 'EUR_RETAIL', ccy: 'EUR', match: ['euro zone retail sales', 'eurozone retail sales', 'ventas minoristas de la zona euro'], avoid: ['german', 'french', 'spanish', 'italian', 'core', 'subyacente'] },
+      { id: 'EUR_CONS_CONF', ccy: 'EUR', match: ['euro zone consumer confidence', 'eurozone consumer confidence', 'confianza del consumidor en la zona euro'], avoid: ['business', 'germany', 'german', 'french', 'spanish', 'gfk'] },
+      { id: 'EUR_IFO', ccy: 'EUR', match: ['german ifo business climate', 'ifo business climate', 'indice ifo de confianza empresarial'], avoid: ['current assessment', 'expectations'] },
+      { id: 'EUR_IND_PROD', ccy: 'EUR', match: ['euro zone industrial production', 'eurozone industrial production', 'produccion industrial de la zona euro'], avoid: ['german', 'french', 'spanish', 'italian'] },
+
+      // GBP - 9 Indicators
+      { id: 'GBP_SP_MFG', ccy: 'GBP', match: ['s&p global/cips uk manufacturing pmi', 's&p global uk manufacturing', 'pmi manufacturero reino unido', 'pmi del sector manufacturero de gran bretaña'], avoid: ['services', 'composite', 'construction'] },
+      { id: 'GBP_SP_SERV', ccy: 'GBP', match: ['s&p global/cips uk services pmi', 's&p global uk services', 'pmi servicios reino unido', 'pmi del sector servicios de gran bretaña'], avoid: ['mfg', 'manufacturing', 'composite', 'construction'] },
+      { id: 'GBP_CPI', ccy: 'GBP', match: ['cpi', 'uk cpi', 'ipc'], avoid: ['core', 'subyacente'] },
+      { id: 'GBP_UNEMP', ccy: 'GBP', match: ['unemployment rate', 'tasa de desempleo'], avoid: ['youth', 'claimant'] },
+      { id: 'GBP_CLAIMANT', ccy: 'GBP', match: ['claimant count change', 'claimant count', 'evolucion del desempleo (claimant count)'], avoid: ['rate'] },
+      { id: 'GBP_RETAIL', ccy: 'GBP', match: ['retail sales', 'ventas minoristas'], avoid: ['ex fuel', 'core', 'subyacente'] },
+      { id: 'GBP_GFK', ccy: 'GBP', match: ['gfk consumer confidence', 'confianza del consumidor de gfk'], avoid: [] },
+      { id: 'GBP_CBI', ccy: 'GBP', match: ['cbi industrial trends orders', 'pedidos de tendencias industriales segun el cbi'], avoid: ['distributive', 'selling prices'] },
+      { id: 'GBP_GDP', ccy: 'GBP', match: ['monthly gdp', 'gdp', 'pib mensual', 'pib'], avoid: ['3m/3m', 'qoq', 'yoy', 'annualized'] },
+
+      // JPY - 9 Indicators
+      { id: 'JPY_JIBUN_MFG', ccy: 'JPY', match: ['au jibun bank japan manufacturing', 'jibun bank manufacturing', 'jibun mfg', 'pmi del sector manufacturero de japon'], avoid: ['services', 'composite', 'construction'] },
+      { id: 'JPY_JIBUN_SERV', ccy: 'JPY', match: ['au jibun bank japan services', 'jibun bank services', 'jibun services', 'pmi del sector servicios de japon'], avoid: ['mfg', 'manufacturing', 'composite', 'construction'] },
+      { id: 'JPY_TOKYO_CPI', ccy: 'JPY', match: ['tokyo cpi', 'tokyo core cpi', 'ipc de tokio'], avoid: ['ex fresh food', 'national'] },
+      { id: 'JPY_UNEMP', ccy: 'JPY', match: ['unemployment rate', 'tasa de desempleo'], avoid: [] },
+      { id: 'JPY_EARNINGS', ccy: 'JPY', match: ['labor cash earnings', 'cash earnings', 'ingresos salariales en efectivo'], avoid: [] },
+      { id: 'JPY_RETAIL', ccy: 'JPY', match: ['retail sales', 'ventas minoristas'], avoid: [] },
+      { id: 'JPY_CONS_SURVEY', ccy: 'JPY', match: ['consumer survey', 'consumer confidence', 'confianza del consumidor'], avoid: [] },
+      { id: 'JPY_TANKAN', ccy: 'JPY', match: ['reuters tankan index', 'reuters tankan', 'tankan large manufacturers', 'indice tankan de grandes fabricantes'], avoid: ['non-manufacturers'] },
+      { id: 'JPY_JCER_GDP', ccy: 'JPY', match: ['jcer monthly gdp', 'jcer gdp', 'pib mensual de jcer'], avoid: [] },
+
+      // AUD - 9 Indicators
+      { id: 'AUD_JUDO_MFG', ccy: 'AUD', match: ['judo bank australia manufacturing', 'judo bank manufacturing', 'judo mfg', 'pmi del sector manufacturero de australia'], avoid: ['services', 'composite', 'construction'] },
+      { id: 'AUD_JUDO_SERV', ccy: 'AUD', match: ['judo bank australia services', 'judo bank services', 'judo services', 'pmi del sector servicios de australia'], avoid: ['mfg', 'manufacturing', 'composite', 'construction'] },
+      { id: 'AUD_CPI_IND', ccy: 'AUD', match: ['monthly cpi indicator', 'cpi indicator', 'indicador mensual del ipc'], avoid: ['trimmed'] },
+      { id: 'AUD_UNEMP', ccy: 'AUD', match: ['unemployment rate', 'tasa de desempleo'], avoid: [] },
+      { id: 'AUD_EMP_CHG', ccy: 'AUD', match: ['employment change', 'variacion del empleo', 'cambio en el empleo'], avoid: ['full time', 'part time'] },
+      { id: 'AUD_RETAIL', ccy: 'AUD', match: ['retail sales', 'ventas minoristas'], avoid: [] },
+      { id: 'AUD_WESTPAC', ccy: 'AUD', match: ['westpac consumer sentiment', 'westpac sentiment', 'confianza del consumidor de westpac'], avoid: [] },
+      { id: 'AUD_NAB', ccy: 'AUD', match: ['nab business confidence', 'confianza empresarial de nab'], avoid: ['business conditions'] },
+      { id: 'AUD_AIG', ccy: 'AUD', match: ['ai group industry index', 'aig industry index', 'indice de la industria de ai group'], avoid: ['construction', 'services', 'manufacturing'] },
+
+      // NZD - 9 Indicators
+      { id: 'NZD_BUSNZ_MFG', ccy: 'NZD', match: ['businessnz manufacturing pmi', 'busnz mfg pmi', 'busnz mfg', 'pmi manufacturero de businessnz'], avoid: ['services'] },
+      { id: 'NZD_BUSNZ_SERV', ccy: 'NZD', match: ['businessnz performance of services index', 'busnz services pmi', 'busnz services', 'indice del sector servicios de businessnz'], avoid: ['mfg', 'manufacturing'] },
+      { id: 'NZD_FOOD_PRICES', ccy: 'NZD', match: ['food price index', 'food prices', 'indice de precios de los alimentos'], avoid: [] },
+      { id: 'NZD_UNEMP', ccy: 'NZD', match: ['unemployment rate', 'tasa de desempleo'], avoid: [] },
+      { id: 'NZD_MEI_JOBS', ccy: 'NZD', match: ['mei filled jobs', 'mei jobs change', 'filled jobs', 'empleos cubiertos segun el mei'], avoid: [] },
+      { id: 'NZD_CARD', ccy: 'NZD', match: ['electronic card transactions', 'card transactions', 'electronic card retail sales', 'transacciones con tarjeta electronica'], avoid: [] },
+      { id: 'NZD_ANZ_CONS', ccy: 'NZD', match: ['anz consumer confidence', 'confianza del consumidor de anz'], avoid: ['business'] },
+      { id: 'NZD_ANZ_BIZ', ccy: 'NZD', match: ['anz business confidence', 'confianza empresarial de anz'], avoid: ['activity outlook', 'consumer'] },
+      { id: 'NZD_BUSNZ_ACT', ccy: 'NZD', match: ['businessnz activity index', 'busnz activity index', 'indice de actividad de businessnz'], avoid: [] },
+
+      // CAD - 9 Indicators
+      { id: 'CAD_SP_MFG', ccy: 'CAD', match: ['s&p global canada manufacturing', 's&p mfg pmi', 's&p global manufacturing pmi', 'pmi del sector manufacturero de canada'], avoid: ['services', 'composite'] },
+      { id: 'CAD_IVEY', ccy: 'CAD', match: ['ivey pmi', 'pmi del gestor de compras ivey'], avoid: ['unadjusted', 'employment', 'prices'] },
+      { id: 'CAD_CPI', ccy: 'CAD', match: ['cpi', 'ipc'], avoid: ['core', 'subyacente', 'median', 'trimmed', 'common'] },
+      { id: 'CAD_UNEMP', ccy: 'CAD', match: ['unemployment rate', 'tasa de desempleo'], avoid: [] },
+      { id: 'CAD_NET_EMP', ccy: 'CAD', match: ['net change in employment', 'net employment change', 'employment change', 'variacion neta del empleo'], avoid: ['full time', 'part time'] },
+      { id: 'CAD_RETAIL', ccy: 'CAD', match: ['retail sales', 'ventas minoristas'], avoid: ['ex autos', 'core', 'subyacente'] },
+      { id: 'CAD_CB_CONS', ccy: 'CAD', match: ['cb consumer survey', 'cb consumer confidence', 'encuesta de confianza del consumidor de cb'], avoid: [] },
+      { id: 'CAD_CFIB', ccy: 'CAD', match: ['cfib business barometer', 'barometro empresarial de la cfib'], avoid: [] },
+      { id: 'CAD_GDP_MOM', ccy: 'CAD', match: ['monthly gdp', 'gdp (mom)', 'pib mensual'], avoid: ['annualized', 'qoq', 'yoy'] },
+
+      // CHF - 9 Indicators
+      { id: 'CHF_PROCURE_MFG', ccy: 'CHF', match: ['procure.ch manufacturing pmi', 'procure mfg pmi', 'procure.ch pmi', 'pmi del sector manufacturero de procure.ch'], avoid: ['services'] },
+      { id: 'CHF_PROCURE_SERV', ccy: 'CHF', match: ['procure.ch services pmi', 'procure services pmi', 'pmi del sector servicios de procure.ch'], avoid: ['mfg', 'manufacturing'] },
+      { id: 'CHF_CPI', ccy: 'CHF', match: ['cpi', 'ipc'], avoid: ['core', 'subyacente'] },
+      { id: 'CHF_UNEMP_RATE', ccy: 'CHF', match: ['unemployment rate', 'unemp rate', 'tasa de desempleo'], avoid: ['non-seasonally', 'change', 'variacion'] },
+      { id: 'CHF_UNEMP_CHG', ccy: 'CHF', match: ['unemployment change', 'unemp change', 'variacion del desempleo'], avoid: ['rate', 'tasa'] },
+      { id: 'CHF_RETAIL', ccy: 'CHF', match: ['real retail sales', 'retail sales', 'ventas minoristas'], avoid: [] },
+      { id: 'CHF_CONS_SENT', ccy: 'CHF', match: ['seco consumer sentiment', 'consumer sentiment', 'clima de consumo de seco'], avoid: [] },
+      { id: 'CHF_KOF', ccy: 'CHF', match: ['kof economic barometer', 'kof indicator', 'barometro economico kof'], avoid: [] },
+      { id: 'CHF_SECO', ccy: 'CHF', match: ['seco economic forecasts', 'seco economic indicators', 'previsiones economicas de seco'], avoid: [] },
+
+      // CNH - Maintained for safety if traded
+      { id: 'CNH_TSF', ccy: 'CNH', match: ['total social financing', 'aggregate financing', 'new yuan loans', 'financiacion social total'], avoid: [] }
+    ];
+
+    function getCoreRuleId(ccy, eventName) {
+      if (!eventName || !ccy) return null;
+      const cleanEvent = normalizeText(eventName);
+      
+      for (const rule of CORE_INDICATOR_RULES) {
+        if (rule.ccy !== ccy) continue;
+        
+        const matches = rule.match.some(m => {
+          const cleanMatch = normalizeText(m);
+          return cleanEvent.includes(cleanMatch);
+        });
+
+        if (matches) {
+          const avoids = rule.avoid.some(a => {
+            const cleanAvoid = normalizeText(a);
+            return cleanEvent.includes(cleanAvoid);
+          });
+          if (!avoids) return rule.id;
+        }
+      }
+      return null;
+    }
+
+    const WHITELIST = {
+      UNIVERSAL: [
+        'interest rate decision', 'monetary policy statement', 'press conference', 'meeting minutes', 
+        'speaks', 'speech', 'president speaks', 'summary of opinions', 'fomc', 'ecb', 'boe', 'boc', 
+        'rba', 'rbnz', 'snb', 'pboc', 'economic projections', 'dot plot', 'monetary policy assessment', 
+        'financial stability report', 'testimony', 'budget', 'autumn statement', 'spring budget', 
+        'fiscal statement', 'statement', 'cash rate', 'overnight rate', 'policy rate', 'bank rate',
+        'tasas de interes', 'politica monetaria', 'actas', 'rueda de prensa', 'discurso',
+        's&p', 's&p global', 'pmi', 'purchasing managers', 'gestores de compras'
+      ],
+      USD: ['ism', 's&p', 'pmi', 'cpi', 'unemployment rate', 'unemployment', 'nfp', 'nonfarm payrolls', 'non-farm payrolls', 'retail sales', 'cb consumer confidence', 'nfib', 'gdpnow', 'atlanta fed', 'adp', 'average hourly earnings', 'jobless claims', 'pce', 'ppi', 'gdp', 'industrial production', 'building permits', 'home sales', 'trade balance', 'jolts', 'durable goods', 'ipc', 'tasa de desempleo', 'michigan', 'u-mich', 'philly fed', 'empire state', 'employment cost index', 'eci'],
+      CAD: ['s&p', 'pmi', 'ivey', 'cpi', 'unemployment rate', 'unemployment', 'net employment change', 'employment change', 'retail sales', 'cb consumer survey', 'cfib', 'monthly gdp', 'gdp', 'monetary policy report', 'ppi', 'ippi', 'trade balance', 'boc business outlook', 'housing starts', 'ipc', 'tasa de desempleo', 'desempleo', 'empleo', 'ventas minoristas', 'pib', 'manufacturing sales', 'wholesale sales', 'average hourly wages', 'hourly wages', 'wages'],
+      EUR: ['hcob', 's&p', 'pmi', 'cpi', 'unemployment', 'germany unemp', 'retail sales', 'consumer confidence', 'ifo', 'industrial production', 'ppi', 'gdp', 'zew', 'trade balance', 'hicp', 'negotiated wages', 'factory orders', 'ipc', 'tasa de desempleo', 'desempleo', 'ventas minoristas', 'produccion industrial', 'pib', 'gfk', 'french', 'france'],
+      CHF: ['procure', 's&p', 'pmi', 'cpi', 'unemp', 'unemployment', 'retail sales', 'consumer sentiment', 'kof', 'seco', 'ppi', 'gdp', 'industrial production', 'trade balance', 'svme', 'ipc', 'tasa de desempleo', 'desempleo', 'ventas minoristas', 'pib'],
+      GBP: ['s&p', 'pmi', 'cpi', 'unemployment rate', 'unemployment', 'claimant count', 'retail sales', 'gfk', 'cbi', 'monthly gdp', 'gdp', 'rpi', 'ppi', 'average earnings', 'public sector net borrowing', 'ipc', 'tasa de desempleo', 'desempleo', 'ventas minoristas', 'pib', 'industrial production', 'manufacturing production', 'halifax', 'nationwide', 'current account'],
+      JPY: ['jibun', 's&p', 'pmi', 'tokyo cpi', 'unemployment rate', 'unemployment', 'cash earnings', 'retail sales', 'consumer survey', 'tankan', 'jcer', 'ppi', 'cgpi', 'national cpi', 'gdp', 'trade balance', 'household spending', 'machine orders', 'ipc', 'tasa de desempleo', 'desempleo', 'ventas minoristas', 'pib', 'industrial production', 'current account'],
+      AUD: ['judo', 's&p', 'pmi', 'cpi indicator', 'cpi', 'unemployment rate', 'unemployment', 'employment change', 'retail sales', 'westpac', 'nab', 'aig', 'ppi', 'gdp', 'trade balance', 'building approvals', 'private capex', 'caixin', 'ipc', 'tasa de desempleo', 'desempleo', 'empleo', 'ventas minoristas', 'pib', 'wage price index', 'wpi'],
+      NZD: ['busnz', 's&p', 'pmi', 'psi', 'cpi', 'food prices', 'unemployment rate', 'unemployment', 'mei jobs', 'filled jobs', 'card transactions', 'retail sales', 'anz', 'ppi', 'gdt', 'gdp', 'trade balance', 'building consents', 'ipc', 'tasa de desempleo', 'desempleo', 'pib', 'caixin'],
+      CNH: ['lpr', 'loan prime rate', 'cpi', 'ppi', 'gdp', 'pmi', 's&p', 'industrial production', 'retail sales', 'trade balance', 'caixin', 'tsf', 'total social financing', 'new yuan loans', 'aggregate financing', 'm2', 'ipc', 'pib']
+    };
+
+    const CURRENCIES = ['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'NZD', 'CHF', 'CNH', 'CNY', 'DE', 'DEU', 'FR', 'FRA', 'UK', 'EU', 'EUR', 'CH', 'CHE', 'CA', 'CAN', 'US', 'USA', 'JP', 'JPN', 'AU', 'AUS', 'NZ', 'NZL', 'GB', 'GBR', 'CN', 'CHN'];
+    const CURRENCY_HIERARCHY = ['EUR', 'GBP', 'AUD', 'NZD', 'USD', 'CAD', 'CHF', 'JPY'];
+
+    let activeCurrencyFilter = 'ALL';
+    let filterCoreOnly = false;
+    let isDivergenceExpanded = false;
+
+    let globalState = {
+      daysData: {},
+      categoryScores: {},
+      matrixEvents: { USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 },
+      matrixTotals: { USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 },
+      matrixPrev: { USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 },
+      matrixPrevBreakdown: { USD: [], EUR: [], GBP: [], JPY: [], CAD: [], AUD: [], NZD: [], CHF: [], CNH: [], VIX: [], Oil: [], Gold: [] },
+      intermarketScores: { VIX: 0, Oil: 0, Gold: 0 },
+      dailyNotes: {}
+    };
+
+    const dropZone = document.getElementById('dropZone');
+    const excelInput = document.getElementById('excelInput');
+
+    if (dropZone && excelInput) {
+      dropZone.addEventListener('click', () => excelInput.click());
+      dropZone.addEventListener('dragover', (e) => { e.preventDefault(); });
+      dropZone.addEventListener('dragenter', (e) => { e.preventDefault(); dropZone.classList.add('border-cyan-500'); });
+      dropZone.addEventListener('dragleave', (e) => {
+        if (!dropZone.contains(e.relatedTarget)) dropZone.classList.remove('border-cyan-500');
+      });
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-cyan-500');
+        if (e.dataTransfer.files.length) processExcelFile(e.dataTransfer.files[0]);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateAdminUI();
+      loadFromCloud();
+      setInterval(loadFromCloud, 10000);
+    });
+
+    async function saveToLocalStorage() {
+      localStorage.setItem('kairos_macro_engine_state_v15', JSON.stringify(globalState));
+
+      if (adminToken) {
+        try {
+          await fetch('/api/state', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Admin-Token': adminToken
+            },
+            body: JSON.stringify(globalState)
+          });
+        } catch (err) {
+          console.error("Error sincronizando con la nube:", err);
+        }
+      }
+    }
+
+    async function loadFromCloud() {
+      try {
+        const res = await fetch('/api/state');
+        if (res.ok) {
+          const cloudData = await res.json();
+          if (cloudData && (Object.keys(cloudData.daysData || {}).length > 0 || Object.values(cloudData.matrixPrev || {}).some(v => v !== 0))) {
+            globalState = cloudData;
+            renderLiveInteractiveApp();
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn("Nube inaccesible, cargando memoria local:", err);
+      }
+      loadFromLocalStorage();
+    }
+
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem('kairos_macro_engine_state_v15');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          globalState.daysData = parsed.daysData || {};
+          globalState.categoryScores = parsed.categoryScores || {};
+          globalState.matrixPrev = Object.assign({ USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 }, parsed.matrixPrev || {});
+          globalState.matrixPrevBreakdown = Object.assign({ USD: [], EUR: [], GBP: [], JPY: [], CAD: [], AUD: [], NZD: [], CHF: [], CNH: [], VIX: [], Oil: [], Gold: [] }, parsed.matrixPrevBreakdown || {});
+          globalState.intermarketScores = Object.assign({ VIX: 0, Oil: 0, Gold: 0 }, parsed.intermarketScores || {});
+          globalState.dailyNotes = parsed.dailyNotes || {};
+          
+          if (Object.keys(globalState.daysData).length > 0 || Object.values(globalState.matrixPrev).some(v => v !== 0)) {
+            renderLiveInteractiveApp();
+          }
+        } catch (e) {
+          console.error("Error al cargar memoria local", e);
+        }
+      }
+    }
+
+    function exportStateJSON() {
+      try {
+        const dataStr = JSON.stringify(globalState, null, 2);
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.href = url;
+        downloadAnchor.download = `kairos_backup_total_${new Date().toISOString().slice(0,10)}.json`;
+        
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        
+        setTimeout(() => {
+          if (document.body.contains(downloadAnchor)) document.body.removeChild(downloadAnchor);
+          URL.revokeObjectURL(url);
+        }, 2000);
+      } catch (err) {
+        console.error("Export error:", err);
+        alert("Error al exportar el archivo JSON.");
+      }
+    }
+
+    function importStateJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed && typeof parsed === 'object') {
+
+            if (parsed.daysData && typeof parsed.daysData === 'object' && Object.keys(parsed.daysData).length > 0) {
+              const reevaluatedDaysData = {};
+
+              Object.keys(parsed.daysData).forEach(day => {
+                const events = parsed.daysData[day] || [];
+                reevaluatedDaysData[day] = events.map(item => {
+                  const ruleId = getCoreRuleId(item.ccy, item.event);
+                  let isCore = false;
+
+                  if (ruleId) {
+                    isCore = true;
+                  }
+
+                  return {
+                    ...item,
+                    coreRuleId: ruleId,
+                    isCore: isCore
+                  };
+                });
+              });
+
+              globalState = {
+                daysData: reevaluatedDaysData,
+                categoryScores: parsed.categoryScores || {},
+                matrixEvents: parsed.matrixEvents || { USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 },
+                matrixTotals: parsed.matrixTotals || { USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 },
+                matrixPrev: Object.assign({ USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 }, parsed.matrixPrev || {}),
+                matrixPrevBreakdown: Object.assign({ USD: [], EUR: [], GBP: [], JPY: [], CAD: [], AUD: [], NZD: [], CHF: [], CNH: [], VIX: [], Oil: [], Gold: [] }, parsed.matrixPrevBreakdown || {}),
+                intermarketScores: Object.assign({ VIX: 0, Oil: 0, Gold: 0 }, parsed.intermarketScores || {}),
+                dailyNotes: parsed.dailyNotes || {}
+              };
+              alert('¡Respaldo cargado con éxito! Todos los eventos fueron re-evaluados con las reglas actuales.');
+            } 
+            else if (parsed.USD || parsed.EUR || parsed.GBP || parsed.JPY || parsed.CAD || parsed.AUD || parsed.NZD || parsed.CHF) {
+              const currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'NZD', 'CHF', 'CNH'];
+              const importedPrevBreakdown = {};
+              const importedPrevTotals = {};
+
+              const backupBlockName = "📌 EVENTOS RESPALDADOS (CARGADOS DESDE BACKUP)";
+              globalState.daysData[backupBlockName] = [];
+
+              currencies.forEach(ccy => {
+                const items = parsed[ccy] || [];
+                importedPrevBreakdown[ccy] = [];
+                let ccyTotal = 0;
+
+                items.forEach((item, idx) => {
+                  const evName = item.name || item.event || `Evento ${ccy} #${idx+1}`;
+                  const scoreVal = parseInt(item.score) || 0;
+                  const prevVal = item.previous !== undefined && item.previous !== null ? item.previous : "—";
+                  const fcstVal = item.forecast !== undefined && item.forecast !== null ? item.forecast : "—";
+                  const actVal = item.actual !== undefined && item.actual !== null ? item.actual : "—";
+
+                  let ruleId = getCoreRuleId(ccy, evName);
+                  let isCore = ruleId ? true : false;
+
+                  importedPrevBreakdown[ccy].push({
+                    label: evName,
+                    score: scoreVal
+                  });
+                  ccyTotal += scoreVal;
+
+                  globalState.daysData[backupBlockName].push({
+                    time: item.time || "—",
+                    ccy: ccy,
+                    event: evName,
+                    actual: actVal,
+                    forecast: fcstVal,
+                    previous: prevVal,
+                    coreRuleId: ruleId,
+                    isCore: isCore
+                  });
+
+                  const categoryTitle = getCategorySentimentTitle(ccy, evName);
+                  const catId = `${backupBlockName}-${ccy}-${categoryTitle}`.replace(/[^a-zA-Z0-9]/g, '-');
+                  globalState.categoryScores[catId] = {
+                    ccy: ccy,
+                    score: scoreVal,
+                    title: `${ccy} - ${evName}`,
+                    eventsSummary: evName
+                  };
+                });
+
+                importedPrevTotals[ccy] = ccyTotal;
+              });
+
+              globalState.matrixPrevBreakdown = importedPrevBreakdown;
+              globalState.matrixPrev = importedPrevTotals;
+
+              alert('✅ Backup estructurado cargado correctamente. Los eventos se categorizaron rigurosamente.');
+            } else {
+              throw new Error("Formato de JSON no reconocido.");
+            }
+
+            saveToLocalStorage();
+            renderLiveInteractiveApp();
+          } else {
+            throw new Error("El archivo no es un JSON válido.");
+          }
+        } catch(err) {
+          console.error("Import error:", err);
+          alert('Error al leer el archivo JSON. Verifica que el archivo no esté corrupto.');
+        } finally {
+          e.target.value = '';
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function lockCurrentAsPreviousWeek() {
+      if (!globalState.daysData || Object.keys(globalState.daysData).length === 0) {
+        alert('Primero debes cargar el Excel o JSON de la semana pasada para poder congelarla.');
+        return;
+      }
+
+      const confirmLock = confirm('¿Deseas fijar la semana actual como "Semana Previa"?\n\nEsto tomará los eventos evaluados, congelará su desglose como base histórica de la matriz, y limpiará el calendario para que cargues el archivo de la SEMANA NUEVA.');
+      if (!confirmLock) return;
+
+      const currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'NZD', 'CHF', 'CNH', 'VIX', 'Oil', 'Gold'];
+      const newPrevBreakdown = {};
+      const newPrevTotals = {};
+
+      currencies.forEach(ccy => {
+        const eventsList = getCurrencyEvaluatedEventsList(ccy);
+        newPrevBreakdown[ccy] = eventsList;
+        newPrevTotals[ccy] = eventsList.reduce((acc, item) => acc + item.score, 0);
+      });
+
+      globalState.matrixPrevBreakdown = newPrevBreakdown;
+      globalState.matrixPrev = newPrevTotals;
+
+      globalState.daysData = {};
+      globalState.categoryScores = {};
+      globalState.dailyNotes = {};
+
+      saveToLocalStorage();
+      renderLiveInteractiveApp();
+      alert('📌 ¡Semana anterior congelada con éxito como Base Previa!\n\nAhora puedes arrastrar o seleccionar el archivo Excel de la SEMANA ACTUAL.');
+    }
+
+    function getCurrencyEvaluatedEventsList(ccy) {
+      const list = [];
+      const matchedCatIds = new Set();
+
+      if (['VIX', 'Oil', 'Gold'].includes(ccy)) {
+        const score = globalState.intermarketScores[ccy] || 0;
+        if (score !== 0) list.push({ label: `Evaluación de ${ccy}`, score: score });
+        return list;
+      }
+
+      if (globalState.daysData) {
+        Object.keys(globalState.daysData).forEach(day => {
+          let rawEv = globalState.daysData[day] || [];
+          let events = rawEv.filter(e => isWhitelisted(e.ccy, e.event) && e.ccy === ccy);
+          if (!events || events.length === 0) return;
+
+          let currentBlockEvents = [];
+          events.forEach((item, idx) => {
+            currentBlockEvents.push(item);
+            const nextItem = events[idx + 1];
+            const currentCategory = getCategorySentimentTitle(item.ccy, item.event);
+            const nextCategory = nextItem ? getCategorySentimentTitle(nextItem.ccy, nextItem.event) : null;
+
+            if (!nextItem || nextCategory !== currentCategory) {
+              const categoryId = `${day}-${item.ccy}-${currentCategory}`.replace(/[^a-zA-Z0-9]/g, '-');
+              const scoreObj = globalState.categoryScores[categoryId];
+
+              if (scoreObj && scoreObj.score !== 0) {
+                matchedCatIds.add(categoryId);
+                const uniqueNames = Array.from(new Set(currentBlockEvents.map(e => e.event.trim())));
+                list.push({ label: uniqueNames.join(' / '), score: scoreObj.score });
+              }
+              currentBlockEvents = [];
+            }
+          });
+        });
+      }
+
+      if (globalState.categoryScores) {
+        Object.keys(globalState.categoryScores).forEach(catId => {
+          const item = globalState.categoryScores[catId];
+          if (item && item.ccy === ccy && item.score !== 0 && !matchedCatIds.has(catId)) {
+            let label = item.title || item.eventsSummary || 'Evento Macro';
+            label = label.replace(new RegExp(`^${ccy}\\s*-\\s*`, 'i'), '');
+            list.push({ label: label, score: item.score });
+          }
+        });
+      }
+
+      return list;
+    }
+
+    function translateDayToSpanish(dayStr) {
+      if (!dayStr) return dayStr;
+      let str = dayStr.toUpperCase();
+      const replacements = {
+        'MONDAY': 'LUNES', 'TUESDAY': 'MARTES', 'WEDNESDAY': 'MIÉRCOLES', 'THURSDAY': 'JUEVES', 'FRIDAY': 'VIERNES', 'SATURDAY': 'SÁBADO', 'SUNDAY': 'DOMINGO',
+        'JANUARY': 'ENERO', 'FEBRUARY': 'FEBRERO', 'MARCH': 'MARZO', 'APRIL': 'ABRIL', 'MAY': 'MAYO', 'JUNE': 'JUNIO', 'JULY': 'JULIO', 'AUGUST': 'AGOSTO', 'SEPTEMBER': 'SEPTIEMBRE', 'OCTOBER': 'OCTUBRE', 'NOVEMBER': 'NOVIEMBRE', 'DECEMBER': 'DICIEMBRE'
+      };
+      Object.keys(replacements).forEach(key => {
+        str = str.replace(new RegExp('\\b' + key + '\\b', 'g'), replacements[key]);
+      });
+      return str;
+    }
+
+    function handleFileSelect(e) {
+      if (e.target.files.length) processExcelFile(e.target.files[0]);
+    }
+
+    function isWhitelisted(ccy, eventName) {
+      if (!eventName) return false;
+      const lower = normalizeText(eventName);
+
+      const blacklist = [
+        'opec', 'crude oil', 'oil inventories', 'eia crude', 'gasoline inventories', 'distillate stocks', 
+        'baker hughes', 'fed regional', 'mpc member', 'executive board member', 'construction pmi',
+        'car registration', 'auction', 'obligacion', 'bonos',
+        'private nonfarm payrolls', 'manufacturing payrolls', 'government payrolls'
+      ];
+      if (blacklist.some(term => lower.includes(normalizeText(term)))) return false;
+
+      if (ccy === 'EUR') {
+        const regionalNoise = ['italy', 'italian', 'spain', 'spanish', 'belgium', 'austria', 'greece', 'portugal'];
+        const isEurozoneGermanyFrance = lower.includes('euro zone') || lower.includes('eurozone') || lower.includes('german') || lower.includes('germany') || lower.includes('french') || lower.includes('france') || lower.includes('ifo');
+        if (regionalNoise.some(term => lower.includes(term)) && !isEurozoneGermanyFrance) {
+          return false;
+        }
+      }
+
+      const coreRuleId = getCoreRuleId(ccy, eventName);
+      if (coreRuleId) return true;
+
+      if (WHITELIST.UNIVERSAL.some(term => lower.includes(normalizeText(term)))) return true;
+      
+      const targetCcy = (ccy === 'CNY' || ccy === 'CN') ? 'CNH' : ccy;
+      const terms = WHITELIST[targetCcy] || [];
+      return terms.some(term => lower.includes(normalizeText(term)));
+    }
+
+    function getCategorySentimentTitle(ccy, eventName) {
+      if (!eventName) return `SENTIMIENTO DE ${ccy}`;
+      const lower = normalizeText(eventName);
+      
+      if (lower.includes('nonfarm') || lower.includes('non farm') || lower.includes('nfp') || lower.includes('nominas no agricolas') || lower.includes('empleo no agricola')) {
+        return `${ccy} - NFP (NÓMINAS NO AGRÍCOLAS)`;
+      }
+
+      if (lower.includes('ism')) return `${ccy} - PMI ISM`;
+      if (lower.includes('s p') || lower.includes('markit') || lower.includes('hcob') || lower.includes('caixin') || lower.includes('cips')) return `${ccy} - PMI S&P GLOBAL / MARKIT`;
+      if (lower.includes('judo')) return `${ccy} - PMI JUDO BANK`;
+      if (lower.includes('jibun')) return `${ccy} - PMI JIBUN BANK`;
+      if (lower.includes('procure')) return `${ccy} - PMI PROCURE.CH`;
+      if (lower.includes('busnz') || lower.includes('businessnz')) return `${ccy} - PMI BUSINESSNZ`;
+      if (lower.includes('ivey')) return `${ccy} - PMI IVEY`;
+      if (lower.includes('chicago pmi')) return `${ccy} - PMI CHICAGO`;
+      if (lower.includes('pmi')) return `${ccy} - ÍNDICES PMI`;
+
+      if (lower.includes('interest rate') || lower.includes('monetary policy') || lower.includes('press conference') || lower.includes('fomc') || lower.includes('rate decision') || lower.includes('loan prime') || lower.includes('boj') || lower.includes('bank of japan') || lower.includes('meeting minutes') || lower.includes('speaks') || lower.includes('speech') || lower.includes('dot plot') || lower.includes('projections') || lower.includes('cash rate') || lower.includes('overnight rate') || lower.includes('bank rate') || lower.includes('tasas de interes') || lower.includes('politica monetaria')) {
+        return `${ccy} - POLÍTICA MONETARIA Y TASAS`;
+      }
+
+      if (lower.includes('cpi') || lower.includes('ipc') || lower.includes('pce') || lower.includes('rpi') || lower.includes('inflation') || lower.includes('inflacion') || lower.includes('tokyo cpi') || lower.includes('consumer price') || lower.includes('hicp') || lower.includes('food prices')) {
+        return `${ccy} - INFLACIÓN (IPC)`;
+      }
+
+      if (lower.includes('ppi') || lower.includes('ipp') || lower.includes('ippi') || lower.includes('producer price') || lower.includes('cgpi')) {
+        return `${ccy} - PRECIOS DE PRODUCTOR (IPP)`;
+      }
+
+      if (lower.includes('unemployment') || lower.includes('desempleo') || lower.includes('adp') || lower.includes('nominas') || lower.includes('nóminas') || lower.includes('claimant') || lower.includes('jobless') || lower.includes('employment change') || lower.includes('variacion del empleo') || lower.includes('cambio en el empleo') || lower.includes('earnings') || lower.includes('salarios') || lower.includes('cash earnings') || lower.includes('jolts') || lower.includes('employment cost') || lower.includes('eci') || lower.includes('challenger') || lower.includes('mei filled jobs') || lower.includes('wage price index') || lower.includes('wpi')) {
+        return `${ccy} - MERCADO LABORAL Y SALARIOS`;
+      }
+
+      if (lower.includes('retail sales') || lower.includes('ventas minoristas') || lower.includes('card transactions')) {
+        return `${ccy} - VENTAS MINORISTAS Y CONSUMO`;
+      }
+
+      if (lower.includes('gdp') || lower.includes('pib') || lower.includes('gdpnow') || lower.includes('activity index')) {
+        return `${ccy} - PRODUCTO INTERNO BRUTO Y ACTIVIDAD (PIB)`;
+      }
+
+      if (lower.includes('consumer confidence') || lower.includes('consumer sentiment') || lower.includes('confianza del consumidor') || lower.includes('clima de consumo') || lower.includes('consumer survey') || lower.includes('michigan') || lower.includes('gfk') || lower.includes('westpac') || lower.includes('seco')) {
+        return `${ccy} - CONFIANZA DEL CONSUMOR`;
+      }
+
+      if (lower.includes('tankan')) return `${ccy} - ENCUESTA TANKAN`;
+      if (lower.includes('ifo') || lower.includes('zew') || lower.includes('cbi') || lower.includes('nfib') || lower.includes('cfib') || lower.includes('nab') || lower.includes('anz') || lower.includes('aig') || lower.includes('kof') || lower.includes('philly fed') || lower.includes('empire state')) {
+        return `${ccy} - CONFIANZA Y CLIMA DE NEGOCIOS`;
+      }
+
+      if (lower.includes('industrial production') || lower.includes('manufacturing production') || lower.includes('produccion industrial') || lower.includes('factory orders') || lower.includes('machine orders') || lower.includes('durable goods') || lower.includes('manufacturing sales') || lower.includes('wholesale sales')) {
+        return `${ccy} - PRODUCCIÓN INDUSTRIAL`;
+      }
+      if (lower.includes('trade balance') || lower.includes('balanza comercial') || lower.includes('exports') || lower.includes('imports') || lower.includes('current account')) {
+        return `${ccy} - BALANZA COMERCIAL Y CUENTA CORRIENTE`;
+      }
+      if (lower.includes('building') || lower.includes('housing') || lower.includes('home sales') || lower.includes('halifax') || lower.includes('nationwide')) {
+        return `${ccy} - MERCADO INMOBILIARIO`;
+      }
+
+      const cleanName = eventName.replace(/^(French|German|Italian|Spanish|Eurozone|US|UK|Japanese|Australian|Canadian|Swiss|Chinese)\s+/i, '');
+      const firstWord = cleanName.split(' ')[0].toUpperCase();
+      return `${ccy} - ${firstWord}`;
+    }
+
+    function getSmartGroupTitle(ccy, blockEvents) {
+      if (!blockEvents || blockEvents.length === 0) return `${ccy} - EVENTO MACRO`;
+      const uniqueNames = Array.from(new Set(blockEvents.map(e => e.event.trim())));
+      if (uniqueNames.length === 1) return `${ccy} - ${uniqueNames[0]}`;
+      if (uniqueNames.length === 2) return `${ccy} - ${uniqueNames[0]} / ${uniqueNames[1]}`;
+      return getCategorySentimentTitle(ccy, blockEvents[0].event);
+    }
+
+    function processExcelFile(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const rawRows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", raw: false, dateNF: "yyyy-mm-dd" });
+        parseSpreadsheetData(rawRows);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function parseSpreadsheetData(rows) {
+      const daysData = {};
+      let currentDay = "LUNES";
+
+      rows.forEach(row => {
+        if (!row || row.length === 0) return;
+        const cleanRow = row.map(cell => cell === null || cell === undefined ? "" : String(cell).trim());
+        const rowString = cleanRow.join(" ").trim();
+        if (!rowString) return;
+
+        if (/Time/i.test(cleanRow[1] || "") && /Cur/i.test(cleanRow[2] || "") && /Event/i.test(cleanRow[3] || "")) return;
+
+        let detectedDay = null;
+        if (/^(SUNDAY|MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|DOMINGO|LUNES|MARTES|MIÉRCOLES|MIERCOLES|JUEVES|VIERNES|SÁBADO|SABADO)/i.test(rowString)) {
+          detectedDay = rowString.toUpperCase();
+        } else {
+          for (let cell of cleanRow) {
+            if (/^\d{4}-\d{2}-\d{2}/.test(cell) || /^\d{1,2}\/\d{1,2}\/\d{2,4}/.test(cell) || /^\d{5}(\.\d+)?$/.test(cell)) {
+              let d;
+              if (/^\d{5}(\.\d+)?$/.test(cell)) {
+                const serial = parseFloat(cell);
+                if (serial > 40000 && serial < 60000) d = new Date(Math.round((serial - 25569) * 86400 * 1000));
+              } else {
+                let dateVal = cell.includes(' ') ? cell.split(' ')[0] : cell;
+                if (dateVal.includes('-')) {
+                  const parts = dateVal.split('-');
+                  d = new Date(Date.UTC(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])));
+                } else if (dateVal.includes('/')) {
+                  const parts = dateVal.split('/');
+                  let p0 = parseInt(parts[0]), p1 = parseInt(parts[1]), p2 = parseInt(parts[2]);
+                  let year = p2 < 100 ? p2 + 2000 : p2;
+                  let month, day;
+                  if (p0 > 12) { day = p0; month = p1 - 1; }
+                  else { month = p0 - 1; day = p1; }
+                  d = new Date(Date.UTC(year, month, day));
+                }
+              }
+
+              if (d && !isNaN(d.getTime())) {
+                const dayNames = ["DOMINGO", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO"];
+                const dayName = dayNames[d.getUTCDay()];
+                const dateStr = d.toLocaleDateString('es-ES', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).toUpperCase();
+                detectedDay = `${dayName}, ${dateStr}`;
+                break; 
+              }
+            }
+          }
+        }
+
+        if (detectedDay) {
+          currentDay = detectedDay;
+          if (!daysData[currentDay]) daysData[currentDay] = [];
+          return;
+        }
+
+        let time = "", ccy = "", event = "", actual = "", forecast = "", previous = "";
+        let foundCcyIdx = -1;
+
+        for (let i = 0; i < Math.min(cleanRow.length, 5); i++) {
+          const cellVal = cleanRow[i].toUpperCase();
+          if (cellVal.length <= 3 && CURRENCIES.includes(cellVal)) {
+            foundCcyIdx = i;
+            ccy = cellVal;
+            break;
+          }
+        }
+
+        if (foundCcyIdx !== -1) {
+          for (let i = 0; i < foundCcyIdx; i++) {
+            if (/^\d{1,2}:\d{2}/.test(cleanRow[i]) || /^\d{1,2}\.\d{2}/.test(cleanRow[i])) {
+              time = cleanRow[i];
+              break;
+            }
+          }
+
+          let eventIdx = -1;
+          for (let i = foundCcyIdx + 1; i < cleanRow.length; i++) {
+            const val = cleanRow[i].trim();
+            if (/^(high|medium|low|vol\.|bull|\d|★|\s*)$/i.test(val)) continue;
+            eventIdx = i;
+            event = val;
+            break;
+          }
+
+          if (eventIdx !== -1) {
+            const postEvent = cleanRow.slice(eventIdx + 1).filter(cell => cell.trim() !== "");
+            if (postEvent.length >= 3) {
+              actual = postEvent[0]; forecast = postEvent[1]; previous = postEvent[2];
+            } else if (postEvent.length === 2) {
+              actual = postEvent[0]; forecast = postEvent[1];
+            } else if (postEvent.length === 1) {
+              actual = postEvent[0];
+            }
+          }
+        }
+
+        if (!ccy || !event) return;
+
+        let mappedCCY = ccy;
+        if (['DE', 'DEU', 'FR', 'FRA', 'EU', 'EUR'].includes(ccy)) mappedCCY = 'EUR';
+        if (['UK', 'GB', 'GBR'].includes(ccy)) mappedCCY = 'GBP';
+        if (['CH', 'CHE'].includes(ccy)) mappedCCY = 'CHF';
+        if (['CA', 'CAN'].includes(ccy)) mappedCCY = 'CAD';
+        if (['US', 'USA'].includes(ccy)) mappedCCY = 'USD';
+        if (['JP', 'JPN'].includes(ccy)) mappedCCY = 'JPY';
+        if (['AU', 'AUS'].includes(ccy)) mappedCCY = 'AUD';
+        if (['NZ', 'NZL'].includes(ccy)) mappedCCY = 'NZD';
+        if (['CN', 'CHN', 'CNY'].includes(ccy)) mappedCCY = 'CNH';
+
+        if (isWhitelisted(mappedCCY, event)) {
+          if (!daysData[currentDay]) daysData[currentDay] = [];
+          const ruleId = getCoreRuleId(mappedCCY, event);
+          daysData[currentDay].push({ 
+            time, 
+            ccy: mappedCCY, 
+            event, 
+            actual, 
+            forecast, 
+            previous,
+            coreRuleId: ruleId,
+            isCore: ruleId ? true : false
+          });
+        }
+      });
+
+      globalState.daysData = daysData;
+      globalState.categoryScores = {};
+      saveToLocalStorage();
+      renderLiveInteractiveApp();
+    }
+
+    function renderLiveInteractiveApp() {
+      const matrix = document.getElementById('liveMatrixContainer');
+      const bar = document.getElementById('calendarFilterBar');
+      if (matrix) matrix.classList.remove('hidden');
+      if (bar) bar.classList.remove('hidden');
+      renderMatrixTables();
+      renderInteractiveCalendar();
+      recalculateMatrixAndDivergences();
+    }
+
+    function getScoreScaleClass(score) {
+      if (score >= 4) return 'score-scale-strong-bullish font-black';
+      if (score >= 1) return 'score-scale-bullish font-bold';
+      if (score === 0) return 'score-scale-neutral font-medium';
+      if (score >= -3) return 'score-scale-bearish font-bold';
+      return 'score-scale-strong-bearish font-black';
+    }
+
+    function renderMatrixTables() {
+      const forexCurrencies = ['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'NZD', 'CHF', 'CNH'];
+      const intermarketAssets = ['VIX', 'Oil', 'Gold'];
+
+      const forexBody = document.getElementById('matrixForexBody');
+      const intermarketBody = document.getElementById('matrixIntermarketBody');
+
+      if (forexBody) {
+        forexBody.innerHTML = forexCurrencies.map(asset => `
+          <tr class="border-b border-zinc-800/50 hover:bg-[#0a0a0f] transition">
+            <td class="p-2 font-bold text-white flex items-center gap-2">
+              <span id="matrix-badge-${asset}" class="badge-${asset === 'CNH' ? 'CNY' : asset} text-[9px] px-2 py-0.5 rounded font-mono">${asset}</span>
+            </td>
+            <td class="p-2 text-center text-zinc-500 font-mono">
+              <input type="number" value="${globalState.matrixPrev[asset] !== undefined ? globalState.matrixPrev[asset] : 0}" oninput="updatePrevMatrix('${asset}', this.value)" class="w-12 bg-[#020203] border border-zinc-700/60 rounded px-1 py-0.5 text-center text-xs text-white focus:outline-none focus:border-cyan-400 font-mono font-bold">
+            </td>
+            <td id="live-events-${asset}" class="p-2 text-center font-mono text-xs text-zinc-300 font-bold">0</td>
+            <td id="live-matrix-${asset}" class="p-2 text-center font-mono text-xs rounded transition-all">0</td>
+          </tr>
+        `).join('');
+      }
+
+      if (intermarketBody) {
+        intermarketBody.innerHTML = intermarketAssets.map(asset => {
+          const curScore = globalState.intermarketScores[asset] || 0;
+          const assetNameEs = asset === 'Oil' ? 'Petróleo' : asset === 'Gold' ? 'Oro' : 'VIX';
+          return `
+          <tr class="border-b border-zinc-800/50 hover:bg-[#0a0a0f] transition">
+            <td class="p-2 font-bold text-white">${assetNameEs}</td>
+            <td class="p-2 text-center text-zinc-500 font-mono">
+              <input type="number" value="${globalState.matrixPrev[asset] !== undefined ? globalState.matrixPrev[asset] : 0}" oninput="updatePrevMatrix('${asset}', this.value)" class="w-12 bg-[#020203] border border-zinc-700/60 rounded px-1 py-0.5 text-center text-xs text-white focus:outline-none focus:border-cyan-400 font-mono font-bold">
+            </td>
+            <td class="p-2 text-center font-mono">
+              <div class="flex items-center justify-center gap-1">
+                <button type="button" onclick="setIntermarketScore('${asset}', 2, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-emerald-500 cursor-pointer ${curScore === 2 ? 'score-btn-active-p2' : ''}">+2</button>
+                <button type="button" onclick="setIntermarketScore('${asset}', 1, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-emerald-400 cursor-pointer ${curScore === 1 ? 'score-btn-active-p1' : ''}">+1</button>
+                <button type="button" onclick="setIntermarketScore('${asset}', 0, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-zinc-500 cursor-pointer ${curScore === 0 ? 'score-btn-active-0' : ''}">0</button>
+                <button type="button" onclick="setIntermarketScore('${asset}', -1, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-rose-400 cursor-pointer ${curScore === -1 ? 'score-btn-active-m1' : ''}">-1</button>
+                <button type="button" onclick="setIntermarketScore('${asset}', -2, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-rose-600 cursor-pointer ${curScore === -2 ? 'score-btn-active-m2' : ''}">-2</button>
+              </div>
+            </td>
+            <td id="live-matrix-${asset}" class="p-2 text-center font-mono text-xs rounded transition-all">0</td>
+          </tr>
+        `}).join('');
+      }
+    }
+
+    function toggleCoreFilter() {
+      filterCoreOnly = !filterCoreOnly;
+      const btn = document.getElementById('coreOnlyToggleBtn');
+      if (btn) {
+        if (filterCoreOnly) {
+          btn.className = "px-2.5 py-1 rounded bg-amber-500 text-black font-extrabold border border-amber-400 transition flex items-center gap-1 shadow-[0_0_12px_rgba(245,158,11,0.3)] cursor-pointer";
+        } else {
+          btn.className = "px-2.5 py-1 rounded bg-amber-950/40 text-amber-300 border border-amber-500/40 font-bold hover:bg-amber-900/60 transition flex items-center gap-1 cursor-pointer";
+        }
+      }
+      renderInteractiveCalendar();
+    }
+
+    function handleScoreBtnClick(btn, e) {
+      if (e) e.preventDefault();
+      const rectBefore = btn.getBoundingClientRect();
+      
+      const catId = btn.getAttribute('data-catid');
+      const ccy = btn.getAttribute('data-ccy');
+      const scoreVal = parseInt(btn.getAttribute('data-score')) || 0;
+      const title = btn.getAttribute('data-title') || '';
+      const summary = btn.getAttribute('data-summary') || '';
+      
+      setCategoryScore(catId, ccy, scoreVal, title, summary, btn);
+
+      const rectAfter = btn.getBoundingClientRect();
+      const diff = rectAfter.top - rectBefore.top;
+      if (diff !== 0) window.scrollBy({ top: diff, behavior: 'instant' });
+    }
+
+    function setCategoryScore(categoryId, ccy, scoreVal, title, eventsSummary, btn) {
+      globalState.categoryScores[categoryId] = { 
+        ccy: ccy, 
+        score: parseInt(scoreVal),
+        title: title || '',
+        eventsSummary: eventsSummary || ''
+      };
+
+      if (btn && btn.parentElement) {
+        const parent = btn.parentElement;
+        parent.querySelectorAll('.score-btn').forEach(b => {
+          b.classList.remove('score-btn-active-p2', 'score-btn-active-p1', 'score-btn-active-0', 'score-btn-active-m1', 'score-btn-active-m2');
+        });
+        
+        if (scoreVal === 2) btn.classList.add('score-btn-active-p2');
+        if (scoreVal === 1) btn.classList.add('score-btn-active-p1');
+        if (scoreVal === 0) btn.classList.add('score-btn-active-0');
+        if (scoreVal === -1) btn.classList.add('score-btn-active-m1');
+        if (scoreVal === -2) btn.classList.add('score-btn-active-m2');
+      }
+
+      saveToLocalStorage();
+      recalculateMatrixAndDivergences();
+    }
+
+    function setIntermarketScore(asset, scoreVal, e) {
+      if (e) e.preventDefault();
+      const container = document.getElementById('liveMatrixContainer');
+      const rectBefore = container ? container.getBoundingClientRect() : null;
+
+      globalState.intermarketScores[asset] = parseInt(scoreVal);
+      saveToLocalStorage();
+      renderMatrixTables();
+      recalculateMatrixAndDivergences();
+
+      if (container && rectBefore) {
+        const rectAfter = container.getBoundingClientRect();
+        const diff = rectAfter.top - rectBefore.top;
+        if (diff !== 0) window.scrollBy({ top: diff, behavior: 'instant' });
+      }
+    }
+
+    function toggleDivergenceExpand() {
+      const alertBox = document.getElementById('divergenceAlertBox');
+      const rectBefore = alertBox ? alertBox.getBoundingClientRect() : null;
+      
+      isDivergenceExpanded = !isDivergenceExpanded;
+      scanDivergences();
+      
+      if (alertBox && rectBefore) {
+        const rectAfter = alertBox.getBoundingClientRect();
+        const diff = rectAfter.top - rectBefore.top;
+        if (diff !== 0) window.scrollBy({ top: diff, behavior: 'instant' });
+      }
+    }
+
+    function renderInteractiveCalendar() {
+      const container = document.getElementById('interactiveCalendarContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const searchQuery = (document.getElementById('eventSearchInput')?.value || '').toLowerCase();
+
+      Object.keys(globalState.daysData).forEach(day => {
+        let rawEvents = globalState.daysData[day] || [];
+        if (!rawEvents || rawEvents.length === 0) return;
+
+        let events = rawEvents.filter(e => isWhitelisted(e.ccy, e.event));
+
+        if (filterCoreOnly) {
+          events = events.filter(e => e.isCore);
+        }
+        if (activeCurrencyFilter !== 'ALL') {
+          events = events.filter(e => e.ccy === activeCurrencyFilter);
+        }
+        if (searchQuery) {
+          events = events.filter(e => (e.event || '').toLowerCase().includes(searchQuery) || (e.ccy || '').toLowerCase().includes(searchQuery));
+        }
+
+        if (events.length === 0) return;
+
+        const coreCount = events.filter(e => e.isCore).length;
+
+        let dayCard = document.createElement('div');
+        dayCard.className = "day-card bg-[#07090e] border border-cyan-500/30 rounded-2xl shadow-xl shadow-cyan-950/20 space-y-4 overflow-hidden transition hover:border-cyan-500/50";
+
+        const translatedDay = translateDayToSpanish(day);
+
+        let dayHeader = `
+          <div class="bg-[#0b0f19] border-b border-cyan-500/30 px-5 py-3.5 flex justify-between items-center">
+            <div class="flex items-center gap-2 bg-cyan-500/15 border border-cyan-400/40 px-3 py-1.5 rounded-xl text-cyan-300 font-bold font-mono text-xs shadow-[0_0_12px_rgba(34,211,238,0.15)]">
+              <span>📅</span>
+              <span class="tracking-wider">${escapeHtml(translatedDay)}</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px]">
+              ${coreCount > 0 ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded font-bold">🎯 ${coreCount} Core Principal</span>` : ''}
+              <span class="text-cyan-200/80 bg-cyan-950/70 px-2.5 py-0.5 rounded-lg border border-cyan-500/30 font-bold">${events.length} Eventos</span>
+            </div>
+          </div>
+        `;
+
+        let tableHTML = `
+          <div class="px-4 overflow-x-auto">
+            <table class="w-full text-left text-xs font-mono border-collapse table-fixed">
+              <thead>
+                <tr class="text-zinc-500 text-[10px] border-b border-zinc-800 uppercase tracking-wider">
+                  <th class="p-2.5 w-[10%]">Hora</th>
+                  <th class="p-2.5 w-[10%]">Divisa</th>
+                  <th class="p-2.5 w-[44%]">Evento Económico</th>
+                  <th class="p-2.5 w-[12%]">Actual</th>
+                  <th class="p-2.5 w-[12%]">Pronóstico</th>
+                  <th class="p-2.5 w-[12%]">Previo</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        let currentBlockEvents = [];
+
+        events.forEach((item, idx) => {
+          currentBlockEvents.push(item);
+
+          const isCore = item.isCore;
+          const badgeClass = `badge-${['USD','EUR','GBP','JPY','CAD','AUD','NZD','CHF','CNH','CNY'].includes(item.ccy) ? item.ccy : 'DEFAULT'}`;
+          
+          const rowClass = isCore 
+            ? 'core-row-highlight border-b border-amber-500/20 text-zinc-100' 
+            : (idx % 2 === 0 ? 'bg-transparent border-b border-zinc-800/30' : 'bg-zinc-900/20 border-b border-zinc-800/30');
+
+          tableHTML += `
+            <tr class="${rowClass} hover:bg-zinc-800/40 transition">
+              <td class="p-2.5 text-zinc-400 font-mono text-[11px] font-bold">${escapeHtml(item.time)}</td>
+              <td class="p-2.5"><span class="${badgeClass} px-2 py-0.5 rounded font-bold text-[9px] tracking-wide">${escapeHtml(item.ccy)}</span></td>
+              <td class="p-2.5 font-sans text-xs font-medium truncate pr-2">
+                <div class="flex items-center justify-between gap-2 overflow-hidden">
+                  <span class="${isCore ? 'text-amber-200 font-bold' : 'text-zinc-200'} truncate">${escapeHtml(item.event)}</span>
+                  ${isCore ? '<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] px-1.5 py-0.5 rounded font-bold font-mono tracking-wider flex-shrink-0">🎯 CORE</span>' : ''}
+                </div>
+              </td>
+              <td class="p-2.5 font-bold text-white font-mono truncate">${escapeHtml(item.actual) || '—'}</td>
+              <td class="p-2.5 text-zinc-400 font-mono truncate">${escapeHtml(item.forecast) || '—'}</td>
+              <td class="p-2.5 text-zinc-500 font-mono truncate">${escapeHtml(item.previous) || '—'}</td>
+            </tr>
+          `;
+
+          const nextItem = events[idx + 1];
+          const currentCategory = getCategorySentimentTitle(item.ccy, item.event);
+          const nextCategory = nextItem ? getCategorySentimentTitle(nextItem.ccy, nextItem.event) : null;
+
+          if (!nextItem || nextItem.ccy !== item.ccy || nextCategory !== currentCategory) {
+            const smartTitle = getSmartGroupTitle(item.ccy, currentBlockEvents);
+            const categoryId = `${day}-${item.ccy}-${currentCategory}`.replace(/[^a-zA-Z0-9]/g, '-');
+            const scoreObj = globalState.categoryScores[categoryId];
+            const currentScore = scoreObj ? scoreObj.score : 0;
+
+            const eventsSummaryText = Array.from(new Set(currentBlockEvents.map(e => e.event))).join(' / ');
+
+            tableHTML += `
+              <tr>
+                <td colspan="6" class="py-2.5 px-1">
+                  <div class="bg-gradient-to-r from-amber-950/20 via-zinc-900/40 to-zinc-900/20 border border-amber-500/30 rounded-xl p-2.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 my-1">
+                    <div class="flex items-center gap-2 overflow-hidden">
+                      <span class="text-amber-400 text-xs flex-shrink-0">📊</span>
+                      <span class="text-xs font-bold text-amber-200 tracking-wide truncate">${escapeHtml(smartTitle)}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 font-mono flex-shrink-0 self-end sm:self-auto">
+                      <span class="text-[10px] text-zinc-400 mr-1 uppercase">Puntuación:</span>
+                      <button type="button" data-catid="${escapeHtml(categoryId)}" data-ccy="${escapeHtml(item.ccy)}" data-score="2" data-title="${escapeHtml(smartTitle)}" data-summary="${escapeHtml(eventsSummaryText)}" onclick="handleScoreBtnClick(this, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-emerald-500 transition cursor-pointer ${currentScore === 2 ? 'score-btn-active-p2' : ''}">+2</button>
+                      <button type="button" data-catid="${escapeHtml(categoryId)}" data-ccy="${escapeHtml(item.ccy)}" data-score="1" data-title="${escapeHtml(smartTitle)}" data-summary="${escapeHtml(eventsSummaryText)}" onclick="handleScoreBtnClick(this, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-emerald-400 transition cursor-pointer ${currentScore === 1 ? 'score-btn-active-p1' : ''}">+1</button>
+                      <button type="button" data-catid="${escapeHtml(categoryId)}" data-ccy="${escapeHtml(item.ccy)}" data-score="0" data-title="${escapeHtml(smartTitle)}" data-summary="${escapeHtml(eventsSummaryText)}" onclick="handleScoreBtnClick(this, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-zinc-500 transition cursor-pointer ${currentScore === 0 ? 'score-btn-active-0' : ''}">0</button>
+                      <button type="button" data-catid="${escapeHtml(categoryId)}" data-ccy="${escapeHtml(item.ccy)}" data-score="-1" data-title="${escapeHtml(smartTitle)}" data-summary="${escapeHtml(eventsSummaryText)}" onclick="handleScoreBtnClick(this, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-rose-400 transition cursor-pointer ${currentScore === -1 ? 'score-btn-active-m1' : ''}">-1</button>
+                      <button type="button" data-catid="${escapeHtml(categoryId)}" data-ccy="${escapeHtml(item.ccy)}" data-score="-2" data-title="${escapeHtml(smartTitle)}" data-summary="${escapeHtml(eventsSummaryText)}" onclick="handleScoreBtnClick(this, event)" class="score-btn bg-zinc-900 border border-zinc-800 rounded text-[10px] text-zinc-300 hover:border-rose-600 transition cursor-pointer ${currentScore === -2 ? 'score-btn-active-m2' : ''}">-2</button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            `;
+
+            currentBlockEvents = [];
+          }
+        });
+
+        tableHTML += `
+              </tbody>
+            </table>
+          </div>
+          <div class="px-4 pb-4">
+            <textarea data-day="${escapeHtml(day)}" oninput="saveDailyNote(this.getAttribute('data-day'), this.value)" class="w-full bg-[#030305] border border-zinc-800 rounded-xl p-2.5 text-xs text-zinc-300 focus:outline-none focus:border-cyan-500/60 font-mono transition placeholder-zinc-600" rows="1.5" placeholder="Notas de la jornada para ${escapeHtml(translatedDay)} (noticias inesperadas, eventos geopolíticos)...">${escapeHtml(globalState.dailyNotes[day] || '')}</textarea>
+          </div>
+        `;
+
+        dayCard.innerHTML = dayHeader + tableHTML;
+        container.appendChild(dayCard);
+      });
+    }
+
+    function filterByCurrency(ccy) {
+      activeCurrencyFilter = ccy;
+      const btns = document.querySelectorAll('.currency-filter-btn');
+      btns.forEach(btn => {
+        if (btn.textContent === ccy || (ccy === 'ALL' && btn.textContent === 'TODAS')) {
+          btn.className = "currency-filter-btn px-2 py-1 rounded font-bold bg-cyan-500 text-black cursor-pointer";
+        } else {
+          btn.className = "currency-filter-btn px-2 py-1 rounded bg-zinc-800 text-zinc-300 cursor-pointer";
+        }
+      });
+      renderInteractiveCalendar();
+    }
+
+    function applyCalendarFilters() {
+      renderInteractiveCalendar();
+    }
+
+    function saveDailyNote(day, noteText) {
+      globalState.dailyNotes[day] = noteText;
+      saveToLocalStorage();
+    }
+
+    function updatePrevMatrix(asset, val) {
+      globalState.matrixPrev[asset] = parseInt(val) || 0;
+      saveToLocalStorage();
+      recalculateMatrixAndDivergences();
+    }
+
+    function recalculateMatrixAndDivergences() {
+      const currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'NZD', 'CHF', 'CNH'];
+      const intermarket = ['VIX', 'Oil', 'Gold'];
+
+      if (!globalState.matrixEvents) globalState.matrixEvents = {};
+      if (!globalState.matrixTotals) globalState.matrixTotals = {};
+      if (!globalState.matrixPrev) globalState.matrixPrev = {};
+
+      currencies.forEach(c => globalState.matrixEvents[c] = 0);
+      intermarket.forEach(i => globalState.matrixEvents[i] = globalState.intermarketScores[i] || 0);
+
+      if (globalState.categoryScores) {
+        Object.keys(globalState.categoryScores).forEach(catId => {
+          const item = globalState.categoryScores[catId];
+          if (item && item.ccy && typeof item.score === 'number') {
+            if (globalState.matrixEvents[item.ccy] !== undefined) {
+              globalState.matrixEvents[item.ccy] += item.score;
+            } else {
+              globalState.matrixEvents[item.ccy] = item.score;
+            }
+          }
+        });
+      }
+
+      [...currencies, ...intermarket].forEach(c => {
+        const prev = parseInt(globalState.matrixPrev[c]) || 0;
+        const ev = parseInt(globalState.matrixEvents[c]) || 0;
+        globalState.matrixTotals[c] = prev + ev;
+
+        const eventsEl = document.getElementById(`live-events-${c}`);
+        if (eventsEl) eventsEl.textContent = ev > 0 ? `+${ev}` : ev;
+
+        const totalEl = document.getElementById(`live-matrix-${c}`);
+        if (totalEl) {
+          const val = globalState.matrixTotals[c];
+          totalEl.textContent = val > 0 ? `+${val}` : val;
+          totalEl.className = `p-2 text-center font-mono text-xs rounded transition-all ${getScoreScaleClass(val)}`;
+        }
+      });
+
+      scanDivergences();
+    }
+
+    function formatStandardForexPair(curr1, curr2, score1, score2) {
+      const strong = score1 > score2 ? curr1 : curr2;
+      const weak = score1 > score2 ? curr2 : curr1;
+      const rank1 = CURRENCY_HIERARCHY.indexOf(curr1);
+      const rank2 = CURRENCY_HIERARCHY.indexOf(curr2);
+
+      let base, quote, actionText;
+      if (rank1 !== -1 && rank2 !== -1) {
+        if (rank1 < rank2) {
+          base = curr1; quote = curr2;
+          actionText = (strong === curr1) ? `COMPRA ${base}/${quote}` : `VENTA ${base}/${quote}`;
+        } else {
+          base = curr2; quote = curr1;
+          actionText = (strong === curr2) ? `COMPRA ${base}/${quote}` : `VENTA ${base}/${quote}`;
+        }
+      } else {
+        base = strong; quote = weak;
+        actionText = `COMPRA ${base}/${quote}`;
+      }
+
+      return { pairName: `${base}/${quote}`, actionBadge: actionText, strong: strong, weak: weak };
+    }
+
+    function getFullCurrencyBreakdownGrouped(ccy) {
+      let prevList = globalState.matrixPrevBreakdown ? (globalState.matrixPrevBreakdown[ccy] || []) : [];
+      const prevTotal = parseInt(globalState.matrixPrev[ccy]) || 0;
+
+      if (prevList.length === 0 && prevTotal !== 0) {
+        prevList = [{ label: 'Fuerza Previa Manual', score: prevTotal }];
+      }
+
+      const currList = getCurrencyEvaluatedEventsList(ccy);
+
+      return {
+        prevList,
+        prevTotal,
+        currList
+      };
+    }
+
+    function scanDivergences() {
+      const alertBox = document.getElementById('divergenceAlertBox');
+      const listContainer = document.getElementById('divergenceList');
+      const badge = document.getElementById('divergenceCountBadge');
+      const toggleBtn = document.getElementById('toggleExpandDivergenceBtn');
+      const footerExpand = document.getElementById('divergenceFooterExpand');
+      const footerText = document.getElementById('divergenceFooterText');
+
+      if (!alertBox || !listContainer) return;
+
+      const forexList = ['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'NZD', 'CHF'];
+      let divergencesFound = [];
+
+      for (let i = 0; i < forexList.length; i++) {
+        for (let j = i + 1; j < forexList.length; j++) {
+          const cA = forexList[i];
+          const cB = forexList[j];
+          const scoreA = globalState.matrixTotals[cA] || 0;
+          const scoreB = globalState.matrixTotals[cB] || 0;
+          const diff = Math.abs(scoreA - scoreB);
+
+          if (diff >= 3) {
+            const formatted = formatStandardForexPair(cA, cB, scoreA, scoreB);
+            divergencesFound.push({
+              pair: formatted.pairName,
+              actionBadge: formatted.actionBadge,
+              strong: formatted.strong,
+              weak: formatted.weak,
+              strongScore: globalState.matrixTotals[formatted.strong] || 0,
+              weakScore: globalState.matrixTotals[formatted.weak] || 0,
+              diff: diff
+            });
+          }
+        }
+      }
+
+      divergencesFound.sort((a, b) => b.diff - a.diff);
+
+      if (Object.keys(globalState.daysData).length > 0 || divergencesFound.length > 0) {
+        alertBox.classList.remove('hidden');
+      }
+
+      if (divergencesFound.length > 0) {
+        const totalCount = divergencesFound.length;
+        if (badge) badge.textContent = `${totalCount} Pares Aprobados`;
+
+        if (totalCount > 2) {
+          if (toggleBtn) toggleBtn.classList.remove('hidden');
+          if (footerExpand) footerExpand.classList.remove('hidden');
+
+          if (isDivergenceExpanded) {
+            if (toggleBtn) toggleBtn.textContent = '↑ Mostrar Menos (Top 2)';
+            if (footerText) footerText.textContent = '↑ Colapsar a Top 2 Oportunidades';
+          } else {
+            if (toggleBtn) toggleBtn.textContent = `↕️ Ver todos (${totalCount} Pares)`;
+            if (footerText) footerText.textContent = `Ver los ${totalCount} pares aprobados completos ↓`;
+          }
+        } else {
+          if (toggleBtn) toggleBtn.classList.add('hidden');
+          if (footerExpand) footerExpand.classList.add('hidden');
+        }
+
+        const visibleList = (!isDivergenceExpanded && totalCount > 2) 
+          ? divergencesFound.slice(0, 2) 
+          : divergencesFound;
+
+        listContainer.className = "grid grid-cols-1 md:grid-cols-2 gap-4 text-xs items-start";
+        listContainer.innerHTML = visibleList.map(d => {
+          const strongData = getFullCurrencyBreakdownGrouped(d.strong);
+          const weakData = getFullCurrencyBreakdownGrouped(d.weak);
+
+          return `
+            <div class="bg-[#05060a] border border-zinc-800 hover:border-cyan-500/50 p-4 rounded-xl space-y-3 transition shadow-lg flex flex-col justify-start h-full">
+              <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
+                <div>
+                  <span class="text-[9px] text-zinc-500 uppercase font-mono block">Oportunidad Macro</span>
+                  <span class="font-black text-cyan-400 text-base font-mono tracking-tight">${escapeHtml(d.pair)}</span>
+                </div>
+                <div class="text-right font-mono">
+                  <span class="${d.actionBadge.includes('COMPRA') ? 'bg-emerald-950/90 text-emerald-400 border-emerald-500/50' : 'bg-rose-950/90 text-rose-400 border-rose-500/50'} border px-2.5 py-1 rounded-lg text-xs font-black block mb-1 shadow-sm">${escapeHtml(d.actionBadge)}</span>
+                  <span class="text-[10px] text-zinc-400">Diferencial: <strong class="text-white">${d.diff} pts</strong></span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-sans">
+                
+                <!-- STRONG CURRENCY CARD -->
+                <div class="bg-[#090b12] border border-emerald-500/25 rounded-xl p-2.5 space-y-2">
+                  <div class="flex justify-between items-center border-b border-emerald-500/15 pb-1 font-mono">
+                    <span class="font-bold text-emerald-400 text-xs">${escapeHtml(d.strong)} (+${d.strongScore})</span>
+                  </div>
+                  
+                  <div class="space-y-1.5">
+                    <div class="space-y-1">
+                      <span class="text-[9px] text-amber-300 font-mono font-bold uppercase tracking-wider block">📌 Sem. Previa (${strongData.prevTotal > 0 ? '+' : ''}${strongData.prevTotal}):</span>
+                      ${strongData.prevList.length > 0 ? strongData.prevList.map(b => `
+                        <div class="flex items-center justify-between text-[10px] text-zinc-300 bg-zinc-900/50 px-2 py-0.5 rounded border border-zinc-800/50">
+                          <span class="pr-1">${escapeHtml(b.label)}</span>
+                          <span class="font-mono font-bold ${b.score > 0 ? 'text-emerald-400' : 'text-rose-400'}">${b.score > 0 ? '+' : ''}${b.score}</span>
+                        </div>
+                      `).join('') : '<span class="text-[9px] text-zinc-600 italic block pl-1">Sin eventos previos</span>'}
+                    </div>
+
+                    <div class="space-y-1 pt-1 border-t border-zinc-800/50">
+                      <span class="text-[9px] text-cyan-300 font-mono font-bold uppercase tracking-wider block">⚡ Esta Semana:</span>
+                      ${strongData.currList.length > 0 ? strongData.currList.map(b => `
+                        <div class="flex items-center justify-between text-[10px] text-zinc-100 bg-zinc-900/90 px-2 py-0.5 rounded border border-zinc-700/60">
+                          <span class="pr-1">${escapeHtml(b.label)}</span>
+                          <span class="font-mono font-bold ${b.score > 0 ? 'text-emerald-400' : 'text-rose-400'}">${b.score > 0 ? '+' : ''}${b.score}</span>
+                        </div>
+                      `).join('') : '<span class="text-[9px] text-zinc-600 italic block pl-1">Pendiente evaluar</span>'}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- WEAK CURRENCY CARD -->
+                <div class="bg-[#090b12] border border-rose-500/25 rounded-xl p-2.5 space-y-2">
+                  <div class="flex justify-between items-center border-b border-rose-500/15 pb-1 font-mono">
+                    <span class="font-bold text-rose-400 text-xs">${escapeHtml(d.weak)} (${d.weakScore})</span>
+                  </div>
+                  
+                  <div class="space-y-1.5">
+                    <div class="space-y-1">
+                      <span class="text-[9px] text-amber-300 font-mono font-bold uppercase tracking-wider block">📌 Sem. Previa (${weakData.prevTotal > 0 ? '+' : ''}${weakData.prevTotal}):</span>
+                      ${weakData.prevList.length > 0 ? weakData.prevList.map(b => `
+                        <div class="flex items-center justify-between text-[10px] text-zinc-300 bg-zinc-900/50 px-2 py-0.5 rounded border border-zinc-800/50">
+                          <span class="pr-1">${escapeHtml(b.label)}</span>
+                          <span class="font-mono font-bold ${b.score > 0 ? 'text-emerald-400' : 'text-rose-400'}">${b.score > 0 ? '+' : ''}${b.score}</span>
+                        </div>
+                      `).join('') : '<span class="text-[9px] text-zinc-600 italic block pl-1">Sin eventos previos</span>'}
+                    </div>
+
+                    <div class="space-y-1 pt-1 border-t border-zinc-800/50">
+                      <span class="text-[9px] text-cyan-300 font-mono font-bold uppercase tracking-wider block">⚡ Esta Semana:</span>
+                      ${weakData.currList.length > 0 ? weakData.currList.map(b => `
+                        <div class="flex items-center justify-between text-[10px] text-zinc-100 bg-zinc-900/90 px-2 py-0.5 rounded border border-zinc-700/60">
+                          <span class="pr-1">${escapeHtml(b.label)}</span>
+                          <span class="font-mono font-bold ${b.score > 0 ? 'text-emerald-400' : 'text-rose-400'}">${b.score > 0 ? '+' : ''}${b.score}</span>
+                        </div>
+                      `).join('') : '<span class="text-[9px] text-zinc-600 italic block pl-1">Pendiente evaluar</span>'}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        if (badge) badge.textContent = `0 Pares Aprobados`;
+        if (toggleBtn) toggleBtn.classList.add('hidden');
+        if (footerExpand) footerExpand.classList.add('hidden');
+        listContainer.className = "flex items-center justify-center text-center p-6 border border-dashed border-zinc-800 rounded-xl bg-[#040508]";
+        listContainer.innerHTML = `
+          <div class="text-zinc-500 text-xs font-mono space-y-1">
+            <span class="text-zinc-400 font-bold block">🔍 Escáner Activo — Esperando Divergencias</span>
+            <span>Oportunidades aparecerán aquí cuando exista un diferencial acumulado ≥ 3 pts entre dos divisas.</span>
+          </div>
+        `;
+      }
+    }
+
+    function resetAllScores() {
+      if (confirm('¿Reiniciar todo el tablero? Esto borrará los datos cargados y puntuaciones.')) {
+        localStorage.removeItem('kairos_macro_engine_state_v15');
+        globalState = {
+          daysData: {},
+          categoryScores: {},
+          matrixEvents: { USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 },
+          matrixTotals: { USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 },
+          matrixPrev: { USD: 0, EUR: 0, GBP: 0, JPY: 0, CAD: 0, AUD: 0, NZD: 0, CHF: 0, CNH: 0, VIX: 0, Oil: 0, Gold: 0 },
+          matrixPrevBreakdown: { USD: [], EUR: [], GBP: [], JPY: [], CAD: [], AUD: [], NZD: [], CHF: [], CNH: [], VIX: [], Oil: [], Gold: [] },
+          intermarketScores: { VIX: 0, Oil: 0, Gold: 0 },
+          dailyNotes: {}
+        };
+        const cal = document.getElementById('interactiveCalendarContainer');
+        const mat = document.getElementById('liveMatrixContainer');
+        const bar = document.getElementById('calendarFilterBar');
+        const div = document.getElementById('divergenceAlertBox');
+        if (cal) cal.innerHTML = '';
+        if (mat) mat.classList.add('hidden');
+        if (bar) bar.classList.add('hidden');
+        if (div) div.classList.add('hidden');
+      }
+    }
+
+    function triggerPrint() {
+      renderPDFPrintPreview();
+      setTimeout(() => { window.print(); }, 200);
+    }
+
+    function renderPDFPrintPreview() {
+      const outputContainer = document.getElementById('outputContainer');
+      if (outputContainer) outputContainer.innerHTML = renderReportTemplate(globalState.daysData);
+    }
+
+    function renderReportTemplate(data) {
+      const text = {
+        title: "CALENDARIO ECONÓMICO SEMANAL — REPORTE DE RIESGO",
+        subtitle: "Plantilla Semanal · Eventos Agrupados con Evaluación Cuantitativa de Sentimiento",
+        matrixTitle: "MATRIZ DE FUERZA GLOBAL E INTERMERCADO",
+        instructionsTitle: "Instrucciones de Operación:",
+        instructionsBody: "Matriz calculada automáticamente mediante el Motor Integrado de Riesgo Kairos.<br>• Impacto Alto: Muy Bueno (+2) | Bueno (+1) | En Línea (0) | Malo (-1) | Muy Malo (-2)",
+        thAsset: "ACTIVO / DIVISA",
+        thPrev: "SEMANA PREVIA",
+        thCurr: "TOTAL COMBINADO",
+        secA: "SECCIÓN A: DIVISAS (FOREX CORE)",
+        secB: "SECCIÓN B: CATALIZADORES MACRO E INTERMERCADO",
+        vix: "VIX (Volatilidad S&P 500)",
+        oil: "Petróleo (Crudo WTI/Brent)",
+        gold: "Oro (XAU/USD)",
+        time: "HORA", ccy: "DIVISA", event: "EVENTO", actual: "ACTUAL", forecast: "PRONÓSTICO", previous: "PREVIO", sentiment: "EVALUACIÓN",
+        notes: "Notas Diarias (Noticias Inesperadas / Eventos Geopolíticos / Giros Intermercado):",
+        footer: "Inteligencia Institucional de Riesgo Forex · Kairos Integrated Risk Engine"
+      };
+
+      let html = `
+        <div class="report-card" style="background-color: #ffffff; color: #0f172a; padding: 2rem; border-radius: 0.75rem; font-family: sans-serif; margin-bottom: 3rem;">
+          <h1 style="font-size: 18px; font-weight: bold; color: #0F172A; margin: 0; border-bottom: 2px solid #0F172A; padding-bottom: 4px;">${text.title}</h1>
+          <h2 style="font-size: 11px; color: #475569; margin: 4px 0 14px 0; font-style: italic;">${text.subtitle}</h2>
+          <div style="background-color: #F8FAFC; border: 1px solid #CBD5E1; padding: 10px; border-radius: 4px; margin-bottom: 16px;">
+            <div style="font-size: 11px; font-weight: bold; color: #0F172A; margin-bottom: 6px;">${text.matrixTitle}</div>
+            <p style="font-size: 9px; margin: 0 0 8px 0; color: #334155; line-height: 1.3;">
+              <strong>${text.instructionsTitle}</strong> ${text.instructionsBody}
+            </p>
+            <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
+              <thead>
+                <tr style="background-color: #0F172A; color: white;">
+                  <th style="padding: 5px; text-align: left; width: 40%;">${text.thAsset}</th>
+                  <th style="padding: 5px; text-align: center; width: 30%;">${text.thPrev}</th>
+                  <th style="padding: 5px; text-align: center; width: 30%;">${text.thCurr}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background-color: #CBD5E1; font-weight: bold;"><td colspan="3" style="padding: 3px 5px; color: #0F172A;">${text.secA}</td></tr>
+                ${['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'NZD', 'CHF', 'CNH'].map(asset => {
+                  const tot = globalState.matrixTotals[asset] || 0;
+                  const prev = globalState.matrixPrev[asset] || 0;
+                  return `
+                  <tr style="border-bottom: 1px solid #E2E8F0; color: #0F172A;">
+                    <td style="padding: 3px 5px; font-weight: bold;">${asset}</td>
+                    <td style="border-left: 1px solid #E2E8F0; text-align: center;">${prev > 0 ? '+' : ''}${prev}</td>
+                    <td style="border-left: 1px solid #E2E8F0; text-align: center; font-weight: bold;">${tot > 0 ? '+' : ''}${tot}</td>
+                  </tr>
+                `}).join('')}
+                <tr style="background-color: #CBD5E1; font-weight: bold;"><td colspan="3" style="padding: 3px 5px; color: #0F172A;">${text.secB}</td></tr>
+                ${[['VIX', text.vix], ['Oil', text.oil], ['Gold', text.gold]].map(asset => {
+                  const tot = globalState.matrixTotals[asset[0]] || 0;
+                  const prev = globalState.matrixPrev[asset[0]] || 0;
+                  return `
+                  <tr style="border-bottom: 1px solid #E2E8F0; color: #0F172A;">
+                    <td style="padding: 3px 5px; font-weight: bold;">${asset[1]}</td>
+                    <td style="border-left: 1px solid #E2E8F0; text-align: center;">${prev > 0 ? '+' : ''}${prev}</td>
+                    <td style="border-left: 1px solid #E2E8F0; text-align: center; font-weight: bold;">${tot > 0 ? '+' : ''}${tot}</td>
+                  </tr>
+                `}).join('')}
+              </tbody>
+            </table>
+          </div>
+      `;
+
+      Object.keys(data).forEach(day => {
+        let rawEv = data[day] || [];
+        let events = rawEv.filter(e => isWhitelisted(e.ccy, e.event));
+        if (filterCoreOnly) events = events.filter(e => e.isCore);
+        if (!events || events.length === 0) return;
+        const translatedDay = translateDayToSpanish(day);
+
+        html += `
+          <div style="background-color: #1F385C; color: white; padding: 6px 10px; font-weight: bold; font-size: 11px; margin-top: 14px; text-transform: uppercase;">
+            ${escapeHtml(translatedDay)}
+          </div>
+          <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 4px;">
+            <thead>
+              <tr style="border-bottom: 2px solid #1F385C; text-align: left; background-color: #F1F5F9; color: #0F172A;">
+                <th style="padding: 5px; width: 9%;">${text.time}</th>
+                <th style="padding: 5px; width: 8%;">${text.ccy}</th>
+                <th style="padding: 5px; width: 39%;">${text.event}</th>
+                <th style="padding: 5px; width: 11%;">${text.actual}</th>
+                <th style="padding: 5px; width: 11%;">${text.forecast}</th>
+                <th style="padding: 5px; width: 11%;">${text.previous}</th>
+                <th style="padding: 5px; width: 11%; text-align: center;">${text.sentiment}</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        let currentBlockEvents = [];
+
+        events.forEach((item, idx) => {
+          currentBlockEvents.push(item);
+          const badgeClass = `badge-${['USD','EUR','GBP','JPY','CAD','AUD','NZD','CHF','CNH','CNY'].includes(item.ccy) ? item.ccy : 'DEFAULT'}`;
+          const isCore = item.isCore;
+
+          html += `
+            <tr style="border-bottom: 1px solid #E2E8F0; ${isCore ? 'background-color: #FEF3C7;' : ''} color: #0F172A;">
+              <td style="padding: 4px 5px; font-family: monospace;">${escapeHtml(item.time)}</td>
+              <td style="padding: 4px 5px;"><span class="${badgeClass}" style="padding: 1px 4px; border-radius: 3px; font-weight: bold; font-size: 9px; color: #1E293B;">${escapeHtml(item.ccy)}</span></td>
+              <td style="padding: 4px 5px; ${isCore ? 'font-weight: bold; color: #92400E;' : ''}">${escapeHtml(item.event)} ${isCore ? '🎯' : ''}</td>
+              <td style="padding: 4px 5px; font-weight: bold;">${escapeHtml(item.actual)}</td>
+              <td style="padding: 4px 5px;">${escapeHtml(item.forecast)}</td>
+              <td style="padding: 4px 5px;">${escapeHtml(item.previous)}</td>
+              <td style="padding: 4px 5px; border-left: 1px solid #E2E8F0;"></td>
+            </tr>
+          `;
+
+          const nextItem = events[idx + 1];
+          const currentCategory = getCategorySentimentTitle(item.ccy, item.event);
+          const nextCategory = nextItem ? getCategorySentimentTitle(nextItem.ccy, nextItem.event) : null;
+
+          if (!nextItem || nextItem.ccy !== item.ccy || nextCategory !== currentCategory) {
+            const smartTitle = getSmartGroupTitle(item.ccy, currentBlockEvents);
+            const categoryId = `${day}-${item.ccy}-${currentCategory}`.replace(/[^a-zA-Z0-9]/g, '-');
+            const scoreItem = globalState.categoryScores[categoryId];
+            const scoreVal = scoreItem ? scoreItem.score : 0;
+            const formattedVal = scoreVal > 0 ? `+${scoreVal}` : scoreVal;
+
+            const scoreColor = scoreVal > 0 ? '#166534' : (scoreVal < 0 ? '#991B1B' : '#475569');
+            const scoreBg = scoreVal > 0 ? '#DCFCE7' : (scoreVal < 0 ? '#FEE2E2' : '#F1F5F9');
+
+            html += `
+              <tr style="background-color: #FDF8E7; border-top: 1px solid #D9D9D9; border-bottom: 1px solid #D9D9D9;">
+                <td colspan="6" style="padding: 5px 8px; font-style: italic; font-weight: bold; color: #854D0E; font-size: 9px;">
+                  ${escapeHtml(smartTitle)}
+                </td>
+                <td style="padding: 4px; text-align: center; border-left: 1px solid #CBD5E1;">
+                  <span style="display: inline-block; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 9px; font-family: monospace; color: ${scoreColor}; background-color: ${scoreBg};">
+                    ${formattedVal}
+                  </span>
+                </td>
+              </tr>
+            `;
+
+            currentBlockEvents = [];
+          }
+        });
+
+        html += `
+            </tbody>
+          </table>
+
+          <div style="border: 1px dashed #94A3B8; min-height: 45px; border-radius: 4px; padding: 6px; margin-bottom: 12px; background-color: #FAFAFA;">
+            <span style="font-size: 9px; font-weight: bold; color: #64748B;">
+              ${text.notes}
+            </span>
+            <p style="font-size: 10px; color: #0F172A; margin-top: 4px; font-family: monospace; font-weight: 500;">${escapeHtml(globalState.dailyNotes[day] || '—')}</p>
+          </div>
+        `;
+      });
+
+      html += `
+        <div style="margin-top: 20px; border-top: 1px solid #CBD5E1; padding-top: 6px; text-align: center; font-size: 8px; color: #64748B;">
+          ${text.footer}
+        </div>
+      </div>`;
+
+      return html;
+    }
+  </script>
+</body>
+</html>
