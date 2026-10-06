@@ -5,7 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: './',
+    base: '/kairos-macro-trading-hub/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
